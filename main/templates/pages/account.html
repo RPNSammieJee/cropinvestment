@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block title %}
+Dashboard - CropInvestment
+{% endblock %}
+
+{% block content %}
+<div class="plan-container">
+    <div class="plan-box">
+        <label for="ethereum-plans">Ethereum Staking Plan</label>
+        <select id="ethereum-plans" onchange="selectPlan(this.value)">
+            <option value="" disabled selected>Select a plan</option>
+            <option value="Ethereum Starter Plan">Starter Plan: $500-$1500</option>
+            <option value="Ethereum Bronze Plan">Bronze Plan: $1000-$5000</option>
+            <option value="Ethereum Gold Plan">Gold Plan: $5000-$30000</option>
+            <option value="Ethereum Diamond Plan">Diamond Plan: $30000-$50000</option>
+            <option value="Ethereum Whales Plan">Whales Plan: $50000-$150000</option>
+            <option value="Ethereum Annual staking">Annual staking: $150000-$500000</option>
+        </select>
+    </div>
+    <div class="plan-box">
+        <label for="agriculture-plans">Agricultural Plan</label>
+        <select id="agriculture-plans" onchange="selectPlan(this.value)">
+            <option value="" disabled selected>Select a plan</option>
+            <option value="Agricultural Short Term Plan">Short Term: $25000-$50000</option>
+            <option value="Agricultural Long Term Plan">Long Term: $50000-$100000</option>
+            <option value="Agricultural Annual Term Plan">Annual Term: $100000-$500000</option>
+            
+        </select>
+    </div>
+</div>
+<div class="selected-plan" id="selected-plan"></div>
+{% endblock %}
+
+

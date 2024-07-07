@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block title %}
+Dashboard - CropInvestment
+{% endblock %}
+
+{% block content %}
+
+
+<section>
+<div class="profile-container">
+    <div class="accounts-header">
+        <div>
+            <h2>My accounts</h2>
+            <h1>Account #{{ user.id }}</h1>
+            <h2>{{ user.first_name }} {{ user.last_name }}</h2>
+            <p>{{ user.email }}</p>
+            <div class="account-details">
+                <h3>Balance: {{ user.balance }} USD</h3>
+            </div>
+        </div>
+        
+        <div class="accounts-section">
+            <div class="accounts-header">
+                <h2>My accounts</h2>
+            </div>
+            <div class="account-actions">
+                <button>Deposit</button>
+                <button>Withdraw</button>
+                <button>Transaction History</button>
+            </div>
+        </div>
+    </div>
+</div>
+</section>
+{% endblock %}

@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- displays site properly based on user's device -->
+
+    <link
+      rel="icon"
+      type="image/jpg"
+      sizes="32x32"
+      href="./images/favicon-32x32.jpg"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/static/style.css" />
+
+    <title>Agricharvest and Ethereum Staking</title>
+  </head>
+  <body>
+    <header class="header">
+      <div class="overlay has-fade"></div>
+
+      <nav class="container container--pall flex flex-jc-sb flex-ai-c">
+        <a href="/" class="header__logo">
+          <img src="static/images/crop.png" alt="Agricharvest Return and Etherium staking" />
+        </a>
+
+        <a id="btnHamburger" href="#" class="header__toggle hide-for-desktop">
+          <span></span>
+          <span></span>
+          <span></span>
+        </a>
+
+        <div class="header__links hide-for-mobile">
+          <a href="http://127.0.0.1">Home</a><a href="http://127.0.0.1/signup">Invest Now</a><a href="http://127.0.0.1/blog">Blog</a><a href="http://127.0.0.1/farmers">For Farmers</a><a href="http://127.0.0.1/FAQ">FAQs</a>
+          <div class="dropdown">
+            <a href="#" class="dropdown-toggle">About Us</a>
+            <div class="dropdown-content">
+                <a href="http://127.0.0.1/team">Our Team</a>
+                <a href="http://127.0.0.1/Privacy">Privacy Policy</a>
+                <a href="http://127.0.0.1/porfiolio">Porfiolio</a>
+            </div>
+        </div>
+          <a href="http://127.0.0.1/contact">Contact</a>
+        </div>
+
+        <a href="http://127.0.0.1/signin" class="button header__cta hide-for-mobile">Sign-in</a>
+        <a href="http://127.0.0.1/signup" class="button header__cta hide-for-mobile">Sign-up</a>
+      </nav>
+
+      <div class="header__menu has-fade">
+        <a href="http://127.0.0.1/">Home</a>
+        <a href="http://127.0.0.1/signup">Invest Now</a>
+        <a href="http://127.0.0.1/farmers">For Farmers</a>
+        <a href="http://127.0.0.1/blog">Blog</a>
+        <a href="http://127.0.0.1/FAQ">FAQs</a>
+        <a href="#">About Us</a>
+        <a href="http://127.0.0.1/contact">Contact</a>
+    </div>
+    </header>
+    <hr class="section-divider">
+
+    <section class="hero">
+      <div class="container">
+        <div class="hero__text container--pall">
+          <h1>Crop investment Announces Partnership With Farm Business Management Platform</h1>
+          <p><i>February 23, 2024</i></p>
+        </div>
+        <div class="Blog_Image">
+          <div class="Blog_image container">
+              <!-- Add your image here -->
+              <img src="static/images/blog1.png" alt="Description of the image" class="Blog_Image">
+          </div>
+          <div class="blog_text">
+            <h3>
+              Crop investment, an online platform for agriculture investing and ethereum staking, today announced a partnership with Good Agriculture, a farmer-first, tech-enabled company focused on helping agriculture producers manage the business side of their operations. The partnership entails customer referrals between the two companies for their respective services. <a href="https://example.com/agriculture-investment" target="_blank" class="green-link">Read More</a> </h5> 
+            </h3>
+          </div>
+          <div class="blog_actions">
+            <button id="likeButton" onclick="likePost()">Like</button> <span id="likeCount">0</span> likes
+            <button id="shareButton" onclick="sharePost()">Share</button> <span id="shareCount">0</span> shares
+          </div>
+        </div>
+      </div>
+    </section>
+    
+   <hr class="section-divider">
+
+   <section class="hero">
+    <div class="container">
+      <div class="hero__text container--pall">
+        <h1>Private Credit Agriculture Investments With Harvest Returns</h1>
+        <p><i>December 28, 2023</i></p>
+      </div>
+      <div class="Blog_Image">
+        <div class="Blog_image container">
+          <!-- Add your image here -->
+          <img src="static/images/blog2.jpg" alt="Description of the image" class="Blog_Image">
+        </div>
+        <div class="blog_text">
+          <h3>
+            In December of 2022, the global investment company KKR published 
+            <a href="https://www.kkr.com/insights/regime-change-benefits-private-credit-traditional-portfolio" target="_blank" class="green-link">a study</a> 
+            on the benefits of investing in private credit in the current macroeconomic regime. 
+            Private credit can provide several benefits to investors who wish to diversify their portfolios while generating risk-adjusted returns.
+            <a href="https://example.com/agriculture-investment" target="_blank" class="green-link">Read More</a>
+          </h3>
+        </div>
+        <div class="blog_actions">
+          <button id="likeButton" onclick="likePost()">Like</button> 
+          <span id="likeCount">0</span> likes
+          <button id="shareButton" onclick="sharePost()">Share</button> 
+          <span id="shareCount">0</span> shares
+        </div>
+        <script>
+          document.addEventListener('DOMContentLoaded', (event) => {
+            let likeCount = 0;
+            let shareCount = 0;
+        
+            function likePost() {
+              likeCount++;
+              document.getElementById('likeCount').textContent = likeCount;
+            }
+        
+            function sharePost() {
+              shareCount++;
+              document.getElementById('shareCount').textContent = shareCount;
+              if (navigator.share) {
+                navigator.share({
+                  title: 'Crop Investment Blog',
+                  text: 'Check out this amazing blog post!',
+                  url: window.location.href
+                }).then(() => {
+                  console.log('Thanks for sharing!');
+                }).catch(console.error);
+              } else {
+                alert('Your browser does not support the Web Share API. Please share this link manually.');
+              }
+            }
+        
+            document.getElementById('likeButton').addEventListener('click', likePost);
+            document.getElementById('shareButton').addEventListener('click', sharePost);
+          });
+        
+          function toggleAnswer(id) {
+            var answer = document.getElementById(id);
+            if (answer.style.display === "none") {
+              answer.style.display = "block";
+            } else {
+              answer.style.display = "none";
+            }
+          }
+        </script>        
+      </div>
+    </div>
+  </section>
+  
+
+    <hr class="section-divider">
+
+    <section class="hero">
+      <div class="container">
+        <div class="hero__text container--pall">
+          <h1>Forecasting Agriculture Investment Trends For 2024</h1>
+          <p><i>December 20, 2023</i></p>
+        </div>
+        <div class="Blog_Image">
+          <div class="Blog_image container">
+            <!-- Add your image here -->
+            <img src="static/images/blog3.png" alt="Description of the image" class="Blog_Image">
+          </div>
+        </div>
+        <div class="blog_text">
+          <h3>
+            In many ways, 2023 was an extremely challenging year for agricultural companies raising capital. 
+            A spike in interest rates provided risk-free alternatives for investors who might normally allocate into the space, 
+            while banks and other lending institutions significantly tightened credit availability. 
+            Early stage companies struggled with runway and raising bridge rounds. Though economic headwinds remain, 
+            we’re optimistic that 2024 will see an uptick in funding for several areas. 
+            <a href="https://example.com/agriculture-investment" target="_blank" class="green-link">Read More</a>
+          </h3>
+        </div>
+        <div class="blog_actions">
+          <button id="likeButton" onclick="likePost()">Like</button> 
+          <span id="likeCount">0</span> likes
+          <button id="shareButton" onclick="sharePost()">Share</button> 
+          <span id="shareCount">0</span> shares
+        </div>
+        <script>
+          document.addEventListener('DOMContentLoaded', (event) => {
+            let likeCount = 0;
+            let shareCount = 0;
+        
+            function likePost() {
+              likeCount++;
+              document.getElementById('likeCount').textContent = likeCount;
+            }
+        
+            function sharePost() {
+              shareCount++;
+              document.getElementById('shareCount').textContent = shareCount;
+              if (navigator.share) {
+                navigator.share({
+                  title: 'Crop Investment Blog',
+                  text: 'Check out this amazing blog post!',
+                  url: window.location.href
+                }).then(() => {
+                  console.log('Thanks for sharing!');
+                }).catch(console.error);
+              } else {
+                alert('Your browser does not support the Web Share API. Please share this link manually.');
+              }
+            }
+        
+            document.getElementById('likeButton').addEventListener('click', likePost);
+            document.getElementById('shareButton').addEventListener('click', sharePost);
+          });
+        
+          function toggleAnswer(id) {
+            var answer = document.getElementById(id);
+            if (answer.style.display === "none") {
+              answer.style.display = "block";
+            } else {
+              answer.style.display = "none";
+            }
+          }
+        </script>        
+      </div>
+    </section>
+    
+    <hr class="section-divider">
+
+    <section class="hero">
+      <div class="container">
+        <div class="hero__text container--pall">
+          <h1>Benefits Of Adding Berries To Your Plate And Your Portfolio
+            </h1>
+          <p><i>August 29, 2022</i></p>
+        </div>
+        <div class="Blog_Image">
+          <div class="Blog_image container">
+            <!-- Add your image here -->
+            <img src="static/images/blog4.jpg" alt="Description of the image" class="Blog_Image">
+          </div>
+        </div>
+        <div class="blog_text">
+          <h3>
+            There’s nothing quite as refreshing as biting into a perfectly ripe strawberry, or adding some satisfyingly round blueberries to the top of your yogurt. Berries are simply the perfect addition to your breakfast, snack, or dessert, purely for the taste factor. However, adding a tarty sweetness is not all that berries can do for you. The sweet treats are also a powerful superfood making them beneficial to your overall well-being. Consumers continue to make health conscious decisions when purchasing products, like freshly grown berry varieties, making them more popular among investors as well.<a href="https://example.com/agriculture-investment" target="_blank" class="green-link"> Read More </a> 
+          </h3>
+        </div>
+        <div class="blog_actions">
+          <button id="likeButton" onclick="likePost()">Like</button> <span id="likeCount">0</span> likes
+          <button id="shareButton" onclick="sharePost()">Share</button> <span id="shareCount">0</span> shares
+        </div>
+        <script>
+          document.addEventListener('DOMContentLoaded', (event) => {
+            let likeCount = 0;
+            let shareCount = 0;
+        
+            function likePost() {
+              likeCount++;
+              document.getElementById('likeCount').textContent = likeCount;
+            }
+        
+            function sharePost() {
+              shareCount++;
+              document.getElementById('shareCount').textContent = shareCount;
+              if (navigator.share) {
+                navigator.share({
+                  title: 'Crop Investment Blog',
+                  text: 'Check out this amazing blog post!',
+                  url: window.location.href
+                }).then(() => {
+                  console.log('Thanks for sharing!');
+                }).catch(console.error);
+              } else {
+                alert('Your browser does not support the Web Share API. Please share this link manually.');
+              }
+            }
+        
+            document.getElementById('likeButton').addEventListener('click', likePost);
+            document.getElementById('shareButton').addEventListener('click', sharePost);
+          });
+        
+          function toggleAnswer(id) {
+            var answer = document.getElementById(id);
+            if (answer.style.display === "none") {
+              answer.style.display = "block";
+            } else {
+              answer.style.display = "none";
+            }
+          }
+        </script>
+        
+      </div>
+    </section>
+
+   
+    <hr class="section-divider">
+
+    <section class="hero">
+      <div class="container">
+        <div class="hero__text container--pall">
+          <h1>5 Reasons To Invest In Agrivoltaics
+            </h1>
+          <p><i>April 7, 2023</i></p>
+        </div>
+        <div class="Blog_Image">
+          <div class="Blog_image container">
+            <!-- Add your image here -->
+            <img src="static/images/blog6.jpg" alt="Description of the image" class="Blog_Image">
+          </div>
+        </div>
+        <div class="blog_text">
+          <h3>
+            Agrivoltaics, also known as "dual-use" farming, is the practice of combining agriculture and solar energy production on the same land. This innovative approach has gained significant attention in recent years, as it offers a range of benefits, including increased food production and renewable energy generation. Explore some of the key reasons why investing in agrivoltaics is a wise decision. <a href="https://example.com/agriculture-investment" target="_blank" class="green-link"> Read More </a> 
+          </h3>
+        </div>
+        <div class="blog_actions">
+          <button id="likeButton" onclick="likePost()">Like</button> <span id="likeCount">0</span> likes
+          <button id="shareButton" onclick="sharePost()">Share</button> <span id="shareCount">0</span> shares
+        </div>
+        <script>
+          document.addEventListener('DOMContentLoaded', (event) => {
+            let likeCount = 0;
+            let shareCount = 0;
+        
+            function likePost() {
+              likeCount++;
+              document.getElementById('likeCount').textContent = likeCount;
+            }
+        
+            function sharePost() {
+              shareCount++;
+              document.getElementById('shareCount').textContent = shareCount;
+              if (navigator.share) {
+                navigator.share({
+                  title: 'Crop Investment Blog',
+                  text: 'Check out this amazing blog post!',
+                  url: window.location.href
+                }).then(() => {
+                  console.log('Thanks for sharing!');
+                }).catch(console.error);
+              } else {
+                alert('Your browser does not support the Web Share API. Please share this link manually.');
+              }
+            }
+        
+            document.getElementById('likeButton').addEventListener('click', likePost);
+            document.getElementById('shareButton').addEventListener('click', sharePost);
+          });
+        
+          function toggleAnswer(id) {
+            var answer = document.getElementById(id);
+            if (answer.style.display === "none") {
+              answer.style.display = "block";
+            } else {
+              answer.style.display = "none";
+            }
+          }
+        </script>
+        
+      </div>
+    </section>
+    <hr class="section-divider">
+
+    <section class="hero">
+      <div class="container">
+        <div class="hero__text container--pall">
+          <h1>Four Agriculture Investment Trends To Watch In 2023
+            </h1>
+          <p><i>December 19, 2022</i></p>
+        </div>
+        <div class="Blog_Image">
+          <div class="Blog_image container">
+            <!-- Add your image here -->
+            <img src="static/images/blog5.png" alt="Description of the image" class="Blog_Image">
+          </div>
+        </div>
+        <div class="blog_text">
+          <h3>
+            Each year, we spend some time researching the latest trends in agriculture and food production that we believe will gain the most attention and traction with investors. Despite some slow down in the economy, we anticipate that 2023 will be another strong year for investments in agriculture across all segments. Below are a few areas we see as attractive to investors wishing to diversify their portfolios in agriculture. <a href="https://example.com/agriculture-investment" target="_blank" class="green-link"> Read More </a> 
+          </h3>
+        </div>
+        <div class="blog_actions">
+          <button id="likeButton" onclick="likePost()">Like</button> <span id="likeCount">0</span> likes
+          <button id="shareButton" onclick="sharePost()">Share</button> <span id="shareCount">0</span> shares
+        </div>
+        <script>
+          function toggleAnswer(id) {
+            var answer = document.getElementById(id);
+            if (answer.style.display === "none") {
+              answer.style.display = "block";
+            } else {
+              answer.style.display = "none";
+            }
+          }
+    
+          let likeCount = 0;
+          let shareCount = 0;
+    
+          function likePost() {
+            likeCount++;
+            document.getElementById('likeCount').textContent = likeCount;
+          }
+    
+          function sharePost() {
+            shareCount++;
+            document.getElementById('shareCount').textContent = shareCount;
+            if (navigator.share) {
+              navigator.share({
+                title: 'Crop Investment Blog',
+                text: 'Check out this amazing blog post!',
+                url: window.location.href
+              }).then(() => {
+                console.log('Thanks for sharing!');
+              }).catch(console.error);
+            } else {
+              alert('Your browser does not support the Web Share API. Please share this link manually.');
+            }
+          }
+        </script>
+      </div>
+    </section>
+
+    <hr class="section-divider">
+    
+    
+    <footer class="footer">
+      <div class="container">
+        
+
+        <div class="footer__social">
+          <a href="#">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20">
+              <title>Facebook</title>
+              <path
+                fill="#FFF"
+                d="M18.896 0H1.104C.494 0 0 .494 0 1.104v17.793C0 19.506.494 20 1.104 20h9.58v-7.745H8.076V9.237h2.606V7.01c0-2.583 1.578-3.99 3.883-3.99 1.104 0 2.052.082 2.329.119v2.7h-1.598c-1.254 0-1.496.597-1.496 1.47v1.928h2.989l-.39 3.018h-2.6V20h5.098c.608 0 1.102-.494 1.102-1.104V1.104C20 .494 19.506 0 18.896 0z"
+              />
+            </svg>
+          </a>
+          <a href="#">
+            <svg xmlns="http://www.w3.org/2000/svg" width="21" height="20">
+              <title>YouTube</title>
+              <path
+                fill="#FFF"
+                d="M10.333 0c-5.522 0-10 4.478-10 10 0 5.523 4.478 10 10 10 5.523 0 10-4.477 10-10 0-5.522-4.477-10-10-10zm3.701 14.077c-1.752.12-5.653.12-7.402 0C4.735 13.947 4.514 13.018 4.5 10c.014-3.024.237-3.947 2.132-4.077 1.749-.12 5.651-.12 7.402 0 1.898.13 2.118 1.059 2.133 4.077-.015 3.024-.238 3.947-2.133 4.077zM8.667 8.048l4.097 1.949-4.097 1.955V8.048z"
+              />
+            </svg>
+          </a>
+          <a href="#">
+            <svg xmlns="http://www.w3.org/2000/svg" width="21" height="18">
+              <title>Twitter</title>
+              <path
+                fill="#FFF"
+                d="M20.667 2.797a8.192 8.192 0 01-2.357.646 4.11 4.11 0 001.804-2.27 8.22 8.22 0 01-2.606.996A4.096 4.096 0 0014.513.873c-2.649 0-4.595 2.472-3.997 5.038a11.648 11.648 0 01-8.457-4.287 4.109 4.109 0 001.27 5.478A4.086 4.086 0 011.47 6.59c-.045 1.901 1.317 3.68 3.29 4.075a4.113 4.113 0 01-1.853.07 4.106 4.106 0 003.834 2.85 8.25 8.25 0 01-6.075 1.7 11.616 11.616 0 006.29 1.843c7.618 0 11.922-6.434 11.662-12.205a8.354 8.354 0 002.048-2.124z"
+              />
+            </svg>
+          </a>
+          <a href="#">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20">
+              <title>Pinterest</title>
+              <path
+                fill="#FFF"
+                d="M10 0C4.478 0 0 4.477 0 10c0 4.237 2.636 7.855 6.356 9.312-.088-.791-.167-2.005.035-2.868.182-.78 1.172-4.97 1.172-4.97s-.299-.6-.299-1.486c0-1.39.806-2.428 1.81-2.428.852 0 1.264.64 1.264 1.408 0 .858-.545 2.14-.828 3.33-.236.995.5 1.807 1.48 1.807 1.778 0 3.144-1.874 3.144-4.58 0-2.393-1.72-4.068-4.177-4.068-2.845 0-4.515 2.135-4.515 4.34 0 .859.331 1.781.745 2.281a.3.3 0 01.069.288l-.278 1.133c-.044.183-.145.223-.335.134-1.249-.581-2.03-2.407-2.03-3.874 0-3.154 2.292-6.052 6.608-6.052 3.469 0 6.165 2.473 6.165 5.776 0 3.447-2.173 6.22-5.19 6.22-1.013 0-1.965-.525-2.291-1.148l-.623 2.378c-.226.869-.835 1.958-1.244 2.621.937.29 1.931.446 2.962.446 5.522 0 10-4.477 10-10S15.522 0 10 0z"
+              />
+            </svg>
+          </a>
+          <a href="#">
+            <svg xmlns="http://www.w3.org/2000/svg" width="21" height="20">
+              <title>Instagram</title>
+              <path
+                fill="#FFF"
+                d="M10.333 1.802c2.67 0 2.987.01 4.042.059 2.71.123 3.976 1.409 4.1 4.099.048 1.054.057 1.37.057 4.04 0 2.672-.01 2.988-.058 4.042-.124 2.687-1.386 3.975-4.099 4.099-1.055.048-1.37.058-4.042.058-2.67 0-2.986-.01-4.04-.058-2.717-.124-3.976-1.416-4.1-4.1-.048-1.054-.058-1.37-.058-4.041 0-2.67.01-2.986.058-4.04.124-2.69 1.387-3.977 4.1-4.1 1.054-.048 1.37-.058 4.04-.058zm0-1.802C7.618 0 7.278.012 6.211.06 2.579.227.56 2.242.394 5.877.345 6.944.334 7.284.334 10s.011 3.057.06 4.123c.166 3.632 2.181 5.65 5.816 5.817 1.068.048 1.408.06 4.123.06 2.716 0 3.057-.012 4.124-.06 3.628-.167 5.651-2.182 5.816-5.817.049-1.066.06-1.407.06-4.123s-.011-3.056-.06-4.122C20.11 2.249 18.093.228 14.458.06 13.39.01 13.049 0 10.333 0zm0 4.865a5.135 5.135 0 100 10.27 5.135 5.135 0 000-10.27zm0 8.468a3.333 3.333 0 110-6.666 3.333 3.333 0 010 6.666zm5.339-9.87a1.2 1.2 0 10-.001 2.4 1.2 1.2 0 000-2.4z"
+              />
+            </svg>
+          </a>
+        </div>
+
+        <div class="footer__links col1">
+          <a href="http://127.0.0.1/team">team</a>
+          <a href="http://127.0.0.1/contact">Contact</a>
+          <a href="http://127.0.0.1/blog">Blog</a>
+        </div>
+
+        <div class="footer__links col2">
+          <a href="http://127.0.0.1/porfiolio">portfolio</a>
+          <a href="http://127.0.0.1/Privacy">Privacy Policy</a>
+        </div>
+
+        <div class="footer__cta">
+          <a href="http://127.0.0.1/signup" class="button">Request Invite</a>
+        </div>
+
+        <div class="footer__copyright">
+          &copy; Cropinvestment. All Rights Reserved.
+        </div>
+      </div>
+      
+    </footer>
+
+    <script src="/apps/js/script.js"></script>
+  </body>
+</html>

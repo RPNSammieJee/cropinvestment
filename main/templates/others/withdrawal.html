@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Withdraw</title>
+    <style>
+        body {
+            font-family: Unna;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f7f8fa;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            width: 90%;
+            max-width: 500px;
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .header button {
+            background: none;
+            border: none;
+            color: #007bff;
+            font-size: 1em;
+            cursor: pointer;
+        }
+
+        .header h1 {
+            font-size: 1.5em;
+            margin: 0;
+        }
+
+        .withdraw-method {
+            margin-top: 20px;
+        }
+
+        .withdraw-method label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .withdraw-method select {
+            width: 100%;
+            padding: 10px;
+            font-size: 1em;
+        }
+
+        .withdraw-details {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .withdraw-details p {
+            margin: 10px 0;
+        }
+
+        .withdraw-details input, .withdraw-details button {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            font-size: 1em;
+        }
+
+        .withdraw-details button {
+            background-color: #ff0;
+            color: #000;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <button onclick="goBack()">← Back</button>
+            <h1>Withdraw</h1>
+        </div>
+        <div class="withdraw-method">
+            <label for="withdraw-select">Withdraw method</label>
+            <select id="withdraw-select" onchange="updateWithdrawMethod()">
+                <option value="bitcoin">Bitcoin (BTC)</option>
+                <option value="ethereum">Ethereum (ETH)</option>
+                <option value="bank-transfer">Bank Transfer</option>
+            </select>
+        </div>
+        <div class="withdraw-details" id="withdraw-details">
+            <!-- Details will be dynamically generated here -->
+        </div>
+    </div>
+    <script>
+        function goBack() {
+            window.location.href = 'http://127.0.0.1:5500/templates/dashboard.html';
+        }
+
+        function updateWithdrawMethod() {
+            const withdrawSelect = document.getElementById('withdraw-select');
+            const withdrawMethod = withdrawSelect.value;
+            const withdrawDetails = document.getElementById('withdraw-details');
+            
+            withdrawDetails.innerHTML = '';
+            
+            if (withdrawMethod === 'bitcoin' || withdrawMethod === 'ethereum') {
+                const addressInput = document.createElement('input');
+                addressInput.type = 'text';
+                addressInput.id = 'withdraw-address';
+                addressInput.placeholder = `Enter your ${withdrawMethod} address`;
+
+                const amountInput = document.createElement('input');
+                amountInput.type = 'number';
+                amountInput.id = 'withdraw-amount';
+                amountInput.placeholder = 'Enter the amount to withdraw';
+
+                const withdrawButton = document.createElement('button');
+                withdrawButton.textContent = 'Withdraw';
+                withdrawButton.onclick = processWithdrawal;
+
+                withdrawDetails.appendChild(addressInput);
+                withdrawDetails.appendChild(amountInput);
+                withdrawDetails.appendChild(withdrawButton);
+            } else if (withdrawMethod === 'bank-transfer') {
+                const bankInput = document.createElement('input');
+                bankInput.type = 'text';
+                bankInput.placeholder = 'Enter your bank account number';
+
+                const bankNameInput = document.createElement('input');
+                bankNameInput.type = 'text';
+                bankNameInput.placeholder = 'Enter your bank name';
+
+                const amountInput = document.createElement('input');
+                amountInput.type = 'number';
+                amountInput.id = 'withdraw-amount';
+                amountInput.placeholder = 'Enter the amount to withdraw';
+
+                const withdrawButton = document.createElement('button');
+                withdrawButton.textContent = 'Withdraw';
+                withdrawButton.onclick = processWithdrawal;
+
+                withdrawDetails.appendChild(bankInput);
+                withdrawDetails.appendChild(bankNameInput);
+                withdrawDetails.appendChild(amountInput);
+                withdrawDetails.appendChild(withdrawButton);
+            }
+        }
+
+        function processWithdrawal() {
+            const withdrawMethod = document.getElementById('withdraw-select').value;
+            const amount = document.getElementById('withdraw-amount').value;
+
+            if (withdrawMethod === 'bitcoin' || withdrawMethod === 'ethereum') {
+                const address = document.getElementById('withdraw-address').value;
+                alert(`Withdrawing ${amount} to ${withdrawMethod} address ${address}`);
+                // Add your actual withdrawal logic here
+            } else if (withdrawMethod === 'bank-transfer') {
+                const bankAccount = document.querySelector('.withdraw-details input[type="text"]:nth-child(1)').value;
+                const bankName = document.querySelector('.withdraw-details input[type="text"]:nth-child(2)').value;
+                alert(`Withdrawing ${amount} to bank account ${bankAccount} at ${bankName}`);
+                // Add your actual withdrawal logic here
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', updateWithdrawMethod);
+    </script>
+</body>
+</html>

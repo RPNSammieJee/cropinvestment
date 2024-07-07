@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Out</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f7f8fa;
+        }
+        .signout-container {
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            border-radius: 10px;
+            text-align: center;
+        }
+        .signout-container h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        .signout-buttons {
+            display: flex;
+            justify-content: space-around;
+        }
+        .signout-buttons button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .signout-buttons .yes-button {
+            background-color: #ff0000;
+            color: #fff;
+        }
+        .signout-buttons .no-button {
+            background-color: #00ff40;
+            color: #000;
+        }
+    </style>
+</head>
+<body>
+    <div class="signout-container">
+        <h1>Do you want to sign out?</h1>
+        <div class="signout-buttons">
+            <button class="yes-button" onclick="confirmSignOut(true)">Yes</button>
+            <button class="no-button" onclick="confirmSignOut(false)">No</button>
+        </div>
+    </div>
+
+    <script>
+        function confirmSignOut(isConfirmed) {
+            if (isConfirmed) {
+                //window.location.href = "{{ url_for('logout') }}";
+            } else {
+                // The user stays on the same page
+                alert("You chose to stay on the page.");
+            }
+        }
+    </script>
+</body>
+</html>

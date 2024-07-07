@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- displays site properly based on user's device -->
+
+    <link
+      rel="icon"
+      type="image/jpg"
+      sizes="32x32"
+      href="./images/favicon-32x32.jpg"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/static/style.css" />
+
+    <title>Agricharvest and Ethereum Staking</title>
+  </head>
+  <body>
+    <header class="header">
+      <div class="overlay has-fade"></div>
+
+      <nav class="container container--pall flex flex-jc-sb flex-ai-c">
+        <a href="/" class="header__logo">
+          <img src="/static/images/crop.png" alt="Agricharvest Return and Etherium staking" />
+        </a>
+
+        <a id="btnHamburger" href="#" class="header__toggle hide-for-desktop">
+          <span></span>
+          <span></span>
+          <span></span>
+        </a>
+
+        <div class="header__links hide-for-mobile">
+          <a href="http://127.0.0.1">Home</a><a href="http://127.0.0.1/signup">Invest Now</a><a href="http://127.0.0.1/blog">Blog</a><a href="http://127.0.0.1/farmers">For Farmers</a><a href="http://127.0.0.1/FAQ">FAQs</a>
+          <div class="dropdown">
+            <a href="#" class="dropdown-toggle">About Us</a>
+            <div class="dropdown-content">
+                <a href="http://127.0.0.1/team">Our Team</a>
+                <a href="http://127.0.0.1/Privacy">Privacy Policy</a>
+                <a href="http://127.0.0.1/porfiolio">Porfiolio</a>
+            </div>
+        </div>
+          <a href="http://127.0.0.1/contact">Contact</a>
+        </div>
+
+        <a href="http://127.0.0.1/signin" class="button header__cta hide-for-mobile">Sign-in</a>
+        <a href="http://127.0.0.1/signup" class="button header__cta hide-for-mobile">Sign-up</a>
+      </nav>
+
+      <div class="header__menu has-fade">
+        <a href="http://127.0.0.1/">Home</a>
+        <a href="http://127.0.0.1/signup">Invest Now</a>
+        <a href="http://127.0.0.1/farmers">For Farmers</a>
+        <a href="http://127.0.0.1/blog">Blog</a>
+        <a href="http://127.0.0.1/FAQ">FAQs</a>
+        <a href="#">About Us</a>
+        <a href="http://127.0.0.1/contact">Contact</a>
+    </div>
+    </header>
+    <hr class="section-divider">
+
+
+  <section>
+    <div class="faq-section">
+      <div class="faq-question" onclick="toggleAnswer('answer1')">
+          How do I invest?
+      </div>
+      <div class="faq-answer" id="answer1">
+          <p><strong>Step 1</strong></p>
+          <p>Sign Up / Log In - When you get to the portal, you have the option to Sign Up or Log In. Existing users can move ahead and Log In, but if this is your first time to the portal, you will need to sign up with a new account.</p>
+          <p>Create an Account - First time visitors to the portal will most likely need to create a new account. Keep in mind that passwords need to be at least 8 characters, and you will need to agree to the Terms of Use & Privacy Policy.</p>
+          <p>You will need to create a basic profile to access most projects, requiring basic personal information such as your address and phone number. This information is stored on our secure Amazon Web Services-based platform.</p>
+          <p><strong>Step 2</strong></p>
+          <p>Click on Invest - You can choose to invest as an individual, or invest on behalf of an entity (such as a trust). You may be asked to provide information such as a Tax ID number, articles of incorporation, or an operating agreement to verify you are eligible to sign on behalf of this entity.</p>
+          <p><strong>Step 3</strong></p>
+          <p>Enter Amount - Enter the amount of the investment. Use the slider bar to determine how much you will invest in the project.</p>
+          <p><strong>Step 4</strong></p>
+          <p>Account Information - You then use the payment methods:  Bitcoin - copy the bitcoin address from the deposit icon on your dashboard, then paste on an external wallet to send bitcoin into your farm account. Note, maximum investment limit using Bitcoin is $1,000,000.</p>
+          <p><strong>Step 5</strong></p>
+          <p>Review and Sign Documents - You will be directed to DocuSign to review and sign the Subscription Agreement.</p>
+          <p><strong>Step 6</strong></p>
+          <p>Signing the Agreement - You have the option to download the agreement to review it, or you can sign it later through DocuSign. However, if you choose to sign now, you will submit and continue.</p>
+          <p><strong>Step 7</strong></p>
+          <p>Signed Subscription Agreement Email - You will receive an email once the Subscription Agreement is countersigned and the offering is closed.</p>
+          <p><strong>Step 8</strong></p>
+          <p>Pending Investment Email - The project owner will get an email informing them of a pending investment on the offering. After your investment, you will be guided to the Investor Dashboard.</p>
+          <p>Other optional steps (required for entity investors or accredited investors):</p>
+          <p>3rd Party Investor Accreditation - Depending on the particular offering, you may need to upload information such a letter from an attorney or personal accountant verifying your status as an accredited investor.</p>
+          <p>Anti-money Laundering (AML) Verification Required - Here the entity’s associated persons will fill out their information.</p>
+          <p>Feel free to email us at cropinvestment@gmail.com if you have trouble with the investing process.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="faq-section">
+      <div class="faq-question" onclick="toggleAnswer('answer2')">
+        How much of my portfolio should I invest in Agriculture?
+      </div>
+      <div class="faq-answer" id="answer2">
+        <p> Institutional investors such as pension funds and university endowments typically have around 10% of their portfolios in natural resources. An allocation of 5-15% of an individual’s portfolio in various types of agriculture (farmland & timberland) would not be unreasonable.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="faq-section">
+      <div class="faq-question" onclick="toggleAnswer('answer3')">
+        Can I invest in these offerings with my IRA?
+      </div>
+      <div class="faq-answer" id="answer3">
+        <p>Yes, you can invest in Cropinvestment Offerings with a self-directed IRA. Some types of transactions may be prohibited. Before you begin the investment process, please consult with your self-directed IRA custodian. You will create an "IRA" profile from your user account, and you will need the name of the entity and the Tax ID number from your IRA account to do so. Visit this page for more information.</p>
+      </div>
+    </div>
+  </section>
+
+  
+
+    <script src="/apps/js/script.js"></script>
+  </body>
+</html>

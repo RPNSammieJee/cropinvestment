@@ -1,0 +1,1226 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Admin Dashboard</title>
+
+	<meta name="viewport"
+		content="width=device-width, height=device-height, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+	<link rel="icon" type="image/png" href="assets/AT-pro-logo.png" />
+
+	<!-- Import lib -->
+	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.css">
+	<link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+	<!-- End import lib -->
+
+	<style>
+			:root {
+		--primary-color: #4834d4;
+		--success-color: #6ab04c;
+		--warning-color: #f0932b;
+		--danger-color: #eb4d4b;
+
+		--light-color: #212529;
+		--light-second-color: #727475;
+		--light-background: #ffffff;
+		--light-second-background: #f1f1f1;
+
+		--dark-color: #909090;
+		--dark-second-color: #f5f6fa;
+		--dark-background: #23242D;
+		--dark-second-background: #181818;
+	}
+
+	.light {
+		--main-bg-color: var(--light-background);
+		--second-bg-color: var(--light-second-background);
+		--main-color: var(--light-color);
+		--second-color: var(--light-second-color);
+	}
+
+	.dark {
+		--main-bg-color: var(--dark-background);
+		--second-bg-color: var(--dark-second-background);
+		--main-color: var(--dark-color);
+		--second-color: var(--dark-second-color);
+	}
+
+	.light .logo-dark, .light .light-icon {
+		display: none;
+	}
+
+	.dark .logo-light, .dark .dark-icon {
+		display: none;
+	}
+
+	.bg-primary {
+	background: var(--primary-color);
+	}
+
+	.bg-success {
+	background: var(--success-color);
+	}
+
+	.bg-warning {
+	background: var(--warning-color);
+	}
+
+	.bg-danger {
+	background: var(--danger-color);
+	}
+
+	* {
+		box-sizing: border-box;
+	}
+
+	body {
+		font-family: 'Roboto', sans-serif;
+		background: var(--main-bg-color);
+		color: var(--main-color);
+		margin: 0;
+	}
+
+	.navbar {
+		display: flex;
+		flex-direction: row;
+		background: var(--main-bg-color);
+		color: var(--main-color);
+		position: fixed;
+		top: 0;
+		right: 0;
+		left: 0;
+		z-index: 101;
+		box-shadow: rgba(0,0,0,0.12) 0px 1px 4px 1px;
+	}
+
+	.navbar-nav {
+		list-style: none;
+		display: flex;
+		flex-direction: row;
+		padding-left: 0;
+		margin-bottom: 0;
+		margin-top: 0;
+	}
+
+	.nav-link {
+		float: left;
+		text-align: center;
+		padding: 21px 10px;
+		text-decoration: none;
+		font-size: 17px;
+		color: var(--second-color);
+		position: relative;
+	}
+
+	.nav-link:hover {
+		cursor: pointer;
+	}
+
+	.navbar-nav i {
+		font-size: 1.4rem;
+	}
+
+	.nav-right {
+		margin-left: auto;
+	}
+
+	.navbar-search {
+		position: relative;
+		margin: auto;
+		width: 50%;
+	}
+
+	.navbar-search input {
+		background: var(--second-bg-color);
+		border: none;
+		padding: 12px 50px 12px 50px;
+		width: 100%;
+		outline: none;
+		color: var(--main-color);
+		border-radius: 20px;
+	}
+
+	.navbar-search i {
+		position: absolute;
+		top: 50%;
+		right: 20px;
+		transform: translateY(-50%);
+		color: var(--second-color);
+		cursor: pointer;
+	}
+
+	.logo {
+		height: 60px;
+		padding: 10px;
+	}
+
+	.avt img {
+		width: 39px;
+		height: 39px;
+		border-radius: 50%;
+	}
+
+	.avt {
+		padding: 11px
+	}
+
+	.navbar-badge {
+		font-size: .6rem;
+		padding: 2px 4px;
+		font-weight: 300;
+		position: absolute;
+		right: 5px;
+		top: 9px;
+		color: #fff;
+		background: var(--danger-color);
+		border-radius: 5px;
+	}
+
+	.dropdown {
+		position: relative;
+	}
+
+	.dropdown:hover {
+		cursor: pointer;
+	}
+
+	.dropdown-menu {
+		list-style: none;
+		display: none;
+		flex-direction: column;
+		position: absolute;
+		right: 20%;
+		top: 90%;
+		background: var(--main-bg-color);
+		max-width: 300px;
+		box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+		z-index: 1;
+		padding: unset;
+		border-radius: 10px;
+		border: 0.125px solid var(--second-bg-color);
+	}
+
+	.dropdown-expand {
+		display: flex;
+	}
+
+	.notification-menu {
+		min-width: 380px;
+	}
+
+	.dropdown-menu-content {
+		max-height: 500px;
+		overflow-y: auto;
+	}
+
+	.dropdown-menu-item {
+		width: 100%;
+	}
+
+	.dropdown-menu-link {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		text-decoration: none;
+		color: var(--main-color);
+	}
+
+	.dropdown-menu-link div {
+		min-width: 82px;
+		height: 50px;
+		position: relative;
+	}
+
+	.dropdown-menu-link i {
+		font-size: 1.25rem;
+		color: var(--second-color);
+		position: absolute;
+		left: 50%;
+		top: 50%;
+		transform: translate(-50%, -50%);
+	}
+
+	.dropdown-menu-link span {
+		font-size: 15px;
+		width: 298px;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+
+	.dropdown-menu-link span > span {
+		font-size: 10px;
+	}
+
+	.dropdown-menu-link:hover {
+		cursor: pointer;
+		background: var(--second-bg-color);
+	}
+
+	.dropdown-menu-header {
+		padding: 20px;
+		text-align: center;
+		border-bottom: 1px solid var(--second-bg-color);
+	}
+
+	.dropdown-menu-footer {
+		padding: 20px;
+		text-align: center;
+		border-top: 1px solid var(--second-bg-color);
+	}
+
+	.overlay-scrollbar::-webkit-scrollbar {
+		width: 9px;
+		height: 9px;
+	}
+
+	.scrollbar-hover::-webkit-scrollbar {
+		display: none;
+	}
+
+	.scrollbar-hover:hover::-webkit-scrollbar {
+		display: block;
+	}
+
+	.overlay-scrollbar::-webkit-scrollbar-thumb {
+		background-color: rgba(0,0,0,0.4);
+		border-radius: 10rem;
+		border: 1px solid var(--main-bg-color);
+	}
+
+	.overlay-scrollbar::-webkit-scrollbar-track-piece:start {
+		background: transparent;
+	}
+
+	.overlay-scrollbar::-webkit-scrollbar-track-piece:end {
+		background: transparent;
+	}
+
+	.wrapper {
+		padding: 10px;
+		margin-left: 82px;
+		padding-top: 75px;
+		background: var(--second-bg-color);
+		transition: margin-left .5s;
+	}
+
+	.sidebar {
+		width: 82px;
+		height: 100vh;
+		position: fixed;
+		margin-top: 65px;
+		background: var(--main-bg-color);
+		box-shadow: rgba(0,0,0,0.12) 0px 1px 4px 1px;
+		overflow: hidden;
+		z-index: 100;
+		transition: width .5s;
+	}
+
+	.sidebar:hover {
+		width: 250px;
+	}
+
+	.sidebar-nav {
+		list-style: none;
+		padding: 0;
+		margin: 0;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		height: 100vh;
+	}
+
+	.sidebar-nav-item {
+		width: 100%;
+	}
+
+	.sidebar-nav-link {
+		display: flex;
+		align-items: center;
+		color: var(--main-color);
+		text-decoration: none;
+	}
+
+	.sidebar-nav-link i {
+		font-size: 1.5rem;
+		color: var(--second-color);
+		position: absolute;
+		left: 50%;
+		top: 50%;
+		transform: translate(-50%, -50%);
+	}
+
+	.sidebar-nav-link div {
+		min-width: 82px;
+		height: 50px;
+		position: relative;
+	}
+
+	.sidebar-nav-link:hover {
+		background: var(--second-bg-color);
+	}
+
+	.sidebar-nav-link.active {
+		background: var(--second-bg-color);
+		color: var(--danger-color);
+	}
+
+	.sidebar-nav-link.active div {
+		border-left: 5px solid var(--danger-color);
+	}
+
+	.sidebar-nav-link.active i {
+		color: var(--danger-color);
+		margin-left: -5px;
+	}
+
+	.sidebar-expand .sidebar {
+		width: 250px;
+	}
+
+	.sidebar-expand .wrapper {
+		margin-left: 250px;
+	}
+
+	.row {
+		display: flex;
+		flex-wrap: wrap;
+		flex-direction: row;
+	}
+
+	.row:after, .row:before {
+		box-sizing: border-box;
+	}
+
+	[class*="col-"] {
+		padding: 10px;
+	}
+
+	/* Extra small devices <= 600px */
+	@media only screen and (max-width: 600px) {
+		.sidebar {
+			width: 0;
+		}
+		.wrapper {
+			margin-left: 0;
+		}
+		.sidebar-expand .wrapper {
+			margin-left: 0;
+		}
+		.nav-right .nav-item {
+			display: none;
+		}
+		.nav-right .mode, .nav-right .avt-wrapper {
+			display: list-item;;
+		}
+		.navbar-search {
+			display: none;
+		}
+		.dropdown-menu {
+			max-width: 300px;
+		}
+		[class*="col-"] {
+			width: 100%
+		}
+	}
+
+	/* Small devices >= 600px */
+	@media only screen and (min-width: 600px) {
+		.col-sm-1 {width: 8.33%;}
+		.col-sm-2 {width: 16.66%;}
+		.col-sm-3 {width: 25%;}
+		.col-sm-4 {width: 33.33%;}
+		.col-sm-5 {width: 41.66%;}
+		.col-sm-6 {width: 50%;}
+		.col-sm-7 {width: 58.33%;}
+		.col-sm-8 {width: 66.66%;}
+		.col-sm-9 {width: 75%;}
+		.col-sm-10 {width: 83.33%;}
+		.col-sm-11 {width: 91.66%;}
+		.col-sm-12 {width: 100%;}
+	}
+
+	/* Medium devices >= 768px */
+	@media only screen and (min-width: 768px) {
+		.col-m-1 {width: 8.33%;}
+		.col-m-2 {width: 16.66%;}
+		.col-m-3 {width: 25%;}
+		.col-m-4 {width: 33.33%;}
+		.col-m-5 {width: 41.66%;}
+		.col-m-6 {width: 50%;}
+		.col-m-7 {width: 58.33%;}
+		.col-m-8 {width: 66.66%;}
+		.col-m-9 {width: 75%;}
+		.col-m-10 {width: 83.33%;}
+		.col-m-11 {width: 91.66%;}
+		.col-m-12 {width: 100%;}
+	}
+
+	/* laptops/desktops >= 992px */
+	@media only screen and (min-width: 992px) {
+		.col-1 {width: 8.33%;}
+		.col-2 {width: 16.66%;}
+		.col-3 {width: 25%;}
+		.col-4 {width: 33.33%;}
+		.col-5 {width: 41.66%;}
+		.col-6 {width: 50%;}
+		.col-7 {width: 58.33%;}
+		.col-8 {width: 66.66%;}
+		.col-9 {width: 75%;}
+		.col-10 {width: 83.33%;}
+		.col-11 {width: 91.66%;}
+		.col-12 {width: 100%;}
+	}
+
+	/* large laptops and desktops >= 1200px */
+	@media only screen and (min-width: 1200px) {
+		.col-xl-1 {width: 8.33%;}
+		.col-xl-2 {width: 16.66%;}
+		.col-xl-3 {width: 25%;}
+		.col-xl-4 {width: 33.33%;}
+		.col-xl-5 {width: 41.66%;}
+		.col-xl-6 {width: 50%;}
+		.col-xl-7 {width: 58.33%;}
+		.col-xl-8 {width: 66.66%;}
+		.col-xl-9 {width: 75%;}
+		.col-xl-10 {width: 83.33%;}
+		.col-xl-11 {width: 91.66%;}
+		.col-xl-12 {width: 100%;}
+	}
+
+	.counter {
+		padding: 16px;
+		text-align: center;
+		color: #fff;
+		border-radius: 10px;
+		box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+	}
+
+	.couner i {
+		font-size: 50px;
+	}
+
+	.card {
+		background: var(--main-bg-color);
+		color: var(--main-color);
+		border-radius: 10px;
+		margin-bottom: 10px;
+		box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+	}
+
+	.card-header {
+		padding: 15px 30px;
+		border-bottom: 1px solid var(--second-bg-color);
+		position: relative;
+	}
+
+	.card-header i {
+		color: var(--main-color);
+		position: absolute;
+		right: 30px;
+		top: 50%;
+		transform: translateY(-50%);
+	}
+
+	.card-header i:hover {
+		cursor: pointer;
+	}
+
+	.card-header h3 {
+		margin: 0;
+	}
+
+	.card-content {
+		padding: 20px;
+		overflow-x: auto;
+	}
+
+	table {
+		border-collapse: collapse;
+		width: 100%;
+	}
+
+	table td {
+		border-top: 1px solid var(--second-bg-color);
+		padding: 15px;
+	}
+
+	table th {
+		border-top: 1px solid var(--second-bg-color);
+		border-bottom: 1px solid var(--second-bg-color);
+		padding: 15px 12px;
+		text-align: left;
+	}
+
+	.dot i {
+		display: inline-block;
+		width: .385rem;
+		height: .385rem;
+		margin-right: .385rem;
+		vertical-align: middle;
+		border-radius: 50%;
+	}
+
+	.progress-wrapper {
+		margin-bottom: 15px;
+	}
+
+	.float-right {
+		float: right;
+	}
+
+	.progress {
+		height: 10px;
+		overflow: hidden;
+		display: flex;
+		font-size: .75rem;
+		background: rgba(0,0,0,0.05);
+		border-radius: .25rem;
+		box-shadow: inset 0 1px 2px rgba(0,0,0,0.1);
+	}
+
+	</style>
+</head>
+
+<body class="overlay-scrollbar">
+	<!-- navbar -->
+	<div class="navbar">
+		<!-- nav left -->
+		<ul class="navbar-nav">
+			<li class="nav-item">
+				<a class="nav-link">
+					<i class="fas fa-bars" onclick="collapseSidebar()"></i>
+				</a>
+			</li>
+			<li class="nav-item">
+				<!-- <img src="assets/AT-pro-black.png" alt="ATPro logo" class="logo logo-light">
+				<img src="assets/AT-pro-white.png" alt="ATPro logo" class="logo logo-dark"> -->
+				<h2>Admin Dashboard</h2>
+			</li>
+		</ul>
+		<!-- end nav left -->
+		<!-- form -->
+		<form class="navbar-search">
+			<input type="text" name="Search" class="navbar-search-input" placeholder="What you looking for...">
+			<i class="fas fa-search"></i>
+		</form>
+		<!-- end form -->
+		<!-- nav right -->
+		<ul class="navbar-nav nav-right">
+			<li class="nav-item mode">
+				<a class="nav-link" href="#" onclick="switchTheme()">
+					<i class="fas fa-moon dark-icon"></i>
+					<i class="fas fa-sun light-icon"></i>
+				</a>
+			</li>
+			<li class="nav-item dropdown">
+				<a class="nav-link">
+					<i class="fas fa-bell dropdown-toggle" data-toggle="notification-menu"></i>
+					<span class="navbar-badge">15</span>
+				</a>
+				<ul id="notification-menu" class="dropdown-menu notification-menu">
+					<div class="dropdown-menu-header">
+						<span>
+							Notifications
+						</span>
+					</div>
+					<div class="dropdown-menu-content overlay-scrollbar scrollbar-hover">
+						<li class="dropdown-menu-item">
+							<a href="#" class="dropdown-menu-link">
+								<div>
+									<i class="fas fa-gift"></i>
+								</div>
+								<span>
+									Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
+									<br>
+									<span>
+										15/07/2020
+									</span>
+								</span>
+							</a>
+						</li>
+						<li class="dropdown-menu-item">
+							<a href="#" class="dropdown-menu-link">
+								<div>
+									<i class="fas fa-tasks"></i>
+								</div>
+								<span>
+									Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
+									<br>
+									<span>
+										15/07/2020
+									</span>
+								</span>
+							</a>
+						</li>
+						<li class="dropdown-menu-item">
+							<a href="#" class="dropdown-menu-link">
+								<div>
+									<i class="fas fa-gift"></i>
+								</div>
+								<span>
+									Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
+									<br>
+									<span>
+										15/07/2020
+									</span>
+								</span>
+							</a>
+						</li>
+						<li class="dropdown-menu-item">
+							<a href="#" class="dropdown-menu-link">
+								<div>
+									<i class="fas fa-tasks"></i>
+								</div>
+								<span>
+									Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
+									<br>
+									<span>
+										15/07/2020
+									</span>
+								</span>
+							</a>
+						</li>
+						<li class="dropdown-menu-item">
+							<a href="#" class="dropdown-menu-link">
+								<div>
+									<i class="fas fa-gift"></i>
+								</div>
+								<span>
+									Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
+									<br>
+									<span>
+										15/07/2020
+									</span>
+								</span>
+							</a>
+						</li>
+						<li class="dropdown-menu-item">
+							<a href="#" class="dropdown-menu-link">
+								<div>
+									<i class="fas fa-tasks"></i>
+								</div>
+								<span>
+									Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
+									<br>
+									<span>
+										15/07/2020
+									</span>
+								</span>
+							</a>
+						</li>
+						<li class="dropdown-menu-item">
+							<a href="#" class="dropdown-menu-link">
+								<div>
+									<i class="fas fa-gift"></i>
+								</div>
+								<span>
+									Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
+									<br>
+									<span>
+										15/07/2020
+									</span>
+								</span>
+							</a>
+						</li>
+						<li class="dropdown-menu-item">
+							<a href="#" class="dropdown-menu-link">
+								<div>
+									<i class="fas fa-tasks"></i>
+								</div>
+								<span>
+									Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
+									<br>
+									<span>
+										15/07/2020
+									</span>
+								</span>
+							</a>
+						</li>
+						<li class="dropdown-menu-item">
+							<a href="#" class="dropdown-menu-link">
+								<div>
+									<i class="fas fa-gift"></i>
+								</div>
+								<span>
+									Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
+									<br>
+									<span>
+										15/07/2020
+									</span>
+								</span>
+							</a>
+						</li>
+						<li class="dropdown-menu-item">
+							<a href="#" class="dropdown-menu-link">
+								<div>
+									<i class="fas fa-tasks"></i>
+								</div>
+								<span>
+									Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
+									<br>
+									<span>
+										15/07/2020
+									</span>
+								</span>
+							</a>
+						</li>
+						<li class="dropdown-menu-item">
+							<a href="#" class="dropdown-menu-link">
+								<div>
+									<i class="fas fa-gift"></i>
+								</div>
+								<span>
+									Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
+									<br>
+									<span>
+										15/07/2020
+									</span>
+								</span>
+							</a>
+						</li>
+						<li class="dropdown-menu-item">
+							<a href="#" class="dropdown-menu-link">
+								<div>
+									<i class="fas fa-tasks"></i>
+								</div>
+								<span>
+									Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
+									<br>
+									<span>
+										15/07/2020
+									</span>
+								</span>
+							</a>
+						</li>
+					</div>
+					<div class="dropdown-menu-footer">
+						<span>
+							View all notifications
+						</span>
+					</div>
+				</ul>
+			</li>
+			<li class="nav-item avt-wrapper">
+				<div class="avt dropdown">
+					<img src="adminIcon.png" alt="User image" class="dropdown-toggle" data-toggle="user-menu">
+					<ul id="user-menu" class="dropdown-menu">
+						<li class="dropdown-menu-item">
+							<a class="dropdown-menu-link">
+								<div>
+									<i class="fas fa-user-tie"></i>
+								</div>
+								<span>Profile</span>
+							</a>
+						</li>
+						<li class="dropdown-menu-item">
+							<a href="#" class="dropdown-menu-link">
+								<div>
+									<i class="fas fa-cog"></i>
+								</div>
+								<span>Settings</span>
+							</a>
+						</li>
+						<li class="dropdown-menu-item">
+							<a href="#" class="dropdown-menu-link">
+								<div>
+									<i class="far fa-credit-card"></i>
+								</div>
+								<span>Payments</span>
+							</a>
+						</li>
+						<li class="dropdown-menu-item">
+							<a href="#" class="dropdown-menu-link">
+								<div>
+									<i class="fas fa-spinner"></i>
+								</div>
+								<span>Projects</span>
+							</a>
+						</li>
+						<li class="dropdown-menu-item">
+							<a href="#" class="dropdown-menu-link">
+								<div>
+									<i class="fas fa-sign-out-alt"></i>
+								</div>
+								<span>Logout</span>
+							</a>
+						</li>
+					</ul>
+				</div>
+			</li>
+		</ul>
+		<!-- end nav right -->
+	</div>
+	<!-- end navbar -->
+	<!-- sidebar -->
+	<div class="sidebar">
+		<ul class="sidebar-nav">
+			<li class="sidebar-nav-item">
+				<a href="#" class="sidebar-nav-link active">
+					<div>
+						<i class="fas fa-tachometer-alt"></i>
+					</div>
+					<span>
+						Dashboard
+					</span>
+				</a>
+			</li>
+			<li class="sidebar-nav-item">
+				<a href="#" class="sidebar-nav-link ">
+					<div>
+						<i class="fa fa-cog"></i>
+					</div>
+					<span>settings</span>
+				</a>
+			</li>
+			<li class="sidebar-nav-item">
+				<a href="#" class="sidebar-nav-link">
+					<div>
+						<i class="fas fa-tasks"></i>
+					</div>
+					<span>Tasks	</span>
+				</a>
+			</li>
+			<li class="sidebar-nav-item">
+				<a href="#" class="sidebar-nav-link">
+					<div>
+						<i class="fa fa-key" aria-hidden="true"></i>
+
+					</div>
+					<span>Tools</span>
+				</a>
+			</li>
+			<li class="sidebar-nav-item">
+				<a href="#" class="sidebar-nav-link">
+					<div>
+						<i class="fa fa-info-circle" aria-hidden="true"></i>
+
+					</div>
+					<span>Info</span>
+				</a>
+			</li>
+			<li class="sidebar-nav-item">
+				<a href="#" class="sidebar-nav-link">
+					<div>
+						<i class="fa fa-question-circle" aria-hidden="true"></i>
+
+					</div>
+					<span>FAQ</span>
+				</a>
+			</li>
+			<li class="sidebar-nav-item">
+				<a href="#" class="sidebar-nav-link">
+					<div>
+						<i class="fa fa-comments" aria-hidden="true"></i>
+
+					</div>
+					<span>Messages</span>
+				</a>
+			</li>
+			<li class="sidebar-nav-item">
+				<a href="#" class="sidebar-nav-link">
+					<div>
+						<i class="fa fa-bell" aria-hidden="true"></i>
+
+					</div>
+					<span>Notifications</span>
+				</a>
+			</li>
+			<li class="sidebar-nav-item">
+				<a href="#" class="sidebar-nav-link">
+					<div>
+						<i class="fas fa-adjust"></i>
+					</div>
+					<span>Info</span>
+				</a>
+			</li>
+			<li class="sidebar-nav-item">
+				<a href="#" class="sidebar-nav-link">
+					<div>
+						<i class="fa fa-chevron-circle-down" aria-hidden="true"></i>
+
+					</div>
+					<span>More</span>
+				</a>
+			</li>
+			<li class="sidebar-nav-item">
+				<a href="#" class="sidebar-nav-link">
+					<div>
+						<i class="fas fa-audio-description"></i>
+					</div>
+					<span>Pellentesque</span>
+				</a>
+			</li>
+		</ul>
+	</div>
+	<!-- end sidebar -->
+	<!-- main content -->
+	<div class="wrapper">
+		<div class="row">
+			<div class="col-3 col-m-6 col-sm-6">
+				<div class="counter bg-primary">
+					<p>
+						<i class="fas fa-tasks"></i>
+					</p>
+					<h3>100+</h3>
+					<p>To do</p>
+				</div>
+			</div>
+			<div class="col-3 col-m-6 col-sm-6">
+				<div class="counter bg-warning">
+					<p>
+						<i class="fas fa-spinner"></i>
+					</p>
+					<h3>100+</h3>
+					<p>In progress</p>
+				</div>
+			</div>
+			<div class="col-3 col-m-6 col-sm-6">
+				<div class="counter bg-success">
+					<p>
+						<i class="fas fa-check-circle"></i>
+					</p>
+					<h3>100+</h3>
+					<p>Completed</p>
+				</div>
+			</div>
+			<div class="col-3 col-m-6 col-sm-6">
+				<div class="counter bg-danger">
+					<p>
+						<i class="fas fa-bug"></i>
+					</p>
+					<h3>100+</h3>
+					<p>Issues</p>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-8 col-m-12 col-sm-12">
+				<div class="card">
+					<div class="card-header">
+						<h3>
+							Table
+						</h3>
+						<i class="fas fa-ellipsis-h"></i>
+					</div>
+					<div class="card-content">
+						<table>
+							<thead>
+								<tr>
+									<th>#</th>
+									<th>Project</th>
+									<th>Manager</th>
+									<th>Status</th>
+									<th>Due date</th>
+								</tr>
+							</thead>
+							<tbody>
+								{% for user in users%}
+								<tr>
+									<td>1</td>
+									<td>React</td>
+									<td>Tran Anh Tuat</td>
+									<td>
+										<span class="dot">
+											<i class="bg-success"></i>
+											Completed
+										</span>
+									</td>
+									<td>17/07/2020</td>
+								</tr>
+								{% endfor %}
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+			<div class="col-4 col-m-12 col-sm-12">
+				<div class="card">
+					<div class="card-header">
+						<h3>
+							Progress bar
+						</h3>
+						<i class="fas fa-ellipsis-h"></i>
+					</div>
+					<div class="card-content">
+						<div class="progress-wrapper">
+							<p>
+								Less than 1 hour
+								<span class="float-right">50%</span>
+							</p>
+							<div class="progress">
+								<div class="bg-success" style="width: 50%"></div>
+							</div>
+						</div>
+						<div class="progress-wrapper">
+							<p>
+								1 - 3 hours
+								<span class="float-right">60%</span>
+							</p>
+							<div class="progress">
+								<div class="bg-primary" style="width:60%"></div>
+							</div>
+						</div>
+						<div class="progress-wrapper">
+							<p>
+								More than 3 hours
+								<span class="float-right">40%</span>
+							</p>
+							<div class="progress">
+								<div class="bg-warning" style="width:40%"></div>
+							</div>
+						</div>
+						<div class="progress-wrapper">
+							<p>
+								More than 6 hours
+								<span class="float-right">20%</span>
+							</p>
+							<div class="progress">
+								<div class="bg-danger" style="width:20%"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-12 col-m-12 col-sm-12">
+				<div class="card">
+					<div class="card-header">
+						<h3>
+							Chartjs
+						</h3>
+					</div>
+					<div class="card-content">
+						<canvas id="myChart"></canvas>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- end main content -->
+	<!-- import script -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
+	<script>
+        const primaryColor = '#4834d4'
+		const warningColor = '#f0932b'
+		const successColor = '#6ab04c'
+		const dangerColor = '#eb4d4b'
+
+		const themeCookieName = 'theme'
+		const themeDark = 'dark'
+		const themeLight = 'light'
+
+		const body = document.getElementsByTagName('body')[0]
+
+		function setCookie(cname, cvalue, exdays) {
+		var d = new Date()
+		d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000))
+		var expires = "expires="+d.toUTCString()
+		document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/"
+		}
+
+		function getCookie(cname) {
+		var name = cname + "="
+		var ca = document.cookie.split(';')
+		for(var i = 0; i < ca.length; i++) {
+			var c = ca[i];
+			while (c.charAt(0) == ' ') {
+			c = c.substring(1)
+			}
+			if (c.indexOf(name) == 0) {
+			return c.substring(name.length, c.length)
+			}
+		}
+		return ""
+		}
+
+		loadTheme()
+
+		function loadTheme() {
+			var theme = getCookie(themeCookieName)
+			body.classList.add(theme === "" ? themeLight : theme)
+		}
+
+		function switchTheme() {
+			if (body.classList.contains(themeLight)) {
+				body.classList.remove(themeLight)
+				body.classList.add(themeDark)
+				setCookie(themeCookieName, themeDark)
+			} else {
+				body.classList.remove(themeDark)
+				body.classList.add(themeLight)
+				setCookie(themeCookieName, themeLight)
+			}
+		}
+
+		function collapseSidebar() {
+			body.classList.toggle('sidebar-expand')
+		}
+
+		window.onclick = function(event) {
+			openCloseDropdown(event)
+		}
+
+		function closeAllDropdown() {
+			var dropdowns = document.getElementsByClassName('dropdown-expand')
+			for (var i = 0; i < dropdowns.length; i++) {
+				dropdowns[i].classList.remove('dropdown-expand')
+			}
+		}
+
+		function openCloseDropdown(event) {
+			if (!event.target.matches('.dropdown-toggle')) {
+				// 
+				// Close dropdown when click out of dropdown menu
+				// 
+				closeAllDropdown()
+			} else {
+				var toggle = event.target.dataset.toggle
+				var content = document.getElementById(toggle)
+				if (content.classList.contains('dropdown-expand')) {
+					closeAllDropdown()
+				} else {
+					closeAllDropdown()
+					content.classList.add('dropdown-expand')
+				}
+			}
+		}
+
+		var ctx = document.getElementById('myChart')
+		ctx.height = 500
+		ctx.width = 500
+		var data = {
+			labels: ['January', 'February', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+			datasets: [{
+				fill: false,
+				label: 'Completed',
+				borderColor: successColor,
+				data: [120, 115, 130, 100, 123, 88, 99, 66, 120, 52, 59],
+				borderWidth: 2,
+				lineTension: 0,
+			}, {
+				fill: false,
+				label: 'Issues',
+				borderColor: dangerColor,
+				data: [66, 44, 12, 48, 99, 56, 78, 23, 100, 22, 47],
+				borderWidth: 2,
+				lineTension: 0,
+			}]
+		}
+
+		var lineChart = new Chart(ctx, {
+			type: 'line',
+			data: data,
+			options: {
+				maintainAspectRatio: false,
+				bezierCurve: false,
+			}
+		})
+
+	</script>
+	<!-- end import script -->
+</body>
+
+</html>
