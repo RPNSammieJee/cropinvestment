@@ -5,6 +5,24 @@ Dashboard - CropInvestment
 {% endblock %}
 
 {% block content %}
+<style>
+    .plan-container {
+        display: flex;
+        justify-content: space-around;
+        padding: 20px;
+        margin-bottom: 20%;
+        color: #31d35c;
+    }
+
+    .plan-box {
+        background-color: #fff;
+        padding: 20px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        border-radius: 10px;
+        text-align: center;
+        color: #0a0a0a;
+    }
+</style>
 <div class="plan-container">
     <div class="plan-box">
         <label for="ethereum-plans">Ethereum Staking Plan</label>
@@ -25,11 +43,15 @@ Dashboard - CropInvestment
             <option value="Agricultural Short Term Plan">Short Term: $25000-$50000</option>
             <option value="Agricultural Long Term Plan">Long Term: $50000-$100000</option>
             <option value="Agricultural Annual Term Plan">Annual Term: $100000-$500000</option>
-            
         </select>
     </div>
 </div>
 <div class="selected-plan" id="selected-plan"></div>
+
+<script>
+    function selectPlan(plan) {
+        const selectedPlanDiv = document.getElementById('selected-plan');
+        selectedPlanDiv.innerHTML = `<p>You have selected: ${plan}</p>`;
+    }
+</script>
 {% endblock %}
-
-

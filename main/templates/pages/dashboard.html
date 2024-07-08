@@ -5,11 +5,57 @@ Dashboard - CropInvestment
 {% endblock %}
 
 {% block content %}
+<style>
+    .profile-container {
+        background-color: #fff;
+        margin: 20px auto;
+        padding: 20px;
+        width: 70%;  /* Made the profile container smaller */
+        max-width: 400px;  /* Adjusted max-width */
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        border-radius: 10px;
+        text-align: center;
+    }
 
+    .profile-container h1 {
+        font-size: 1.5em;
+        margin-bottom: 0.5em;
+    }
+
+    .profile-container h2 {
+        font-size: 1.2em;
+        color: #555;
+    }
+
+    .profile-container p {
+        font-size: 0.9em;
+        color: #888;
+    }
+
+    .account-actions {
+        display: flex;
+        justify-content: space-around;
+        margin-top: 20px;
+    }
+
+    .account-actions button {
+        background-color: #ffd700;  /* Yellow background */
+        color: #000;
+        border: none;
+        padding: 10px 20px;
+        font-size: 1em;
+        cursor: pointer;
+        border-radius: 5px;
+        transition: background-color 0.3s;
+    }
+
+    .account-actions button:hover {
+        background-color: #ffcc00;  /* Darker yellow on hover */
+    }
+</style>
 
 <section>
-<div class="profile-container">
-    <div class="accounts-header">
+    <div class="profile-container">
         <div>
             <h2>My accounts</h2>
             <h1>Account #{{ user.id }}</h1>
@@ -19,18 +65,17 @@ Dashboard - CropInvestment
                 <h3>Balance: {{ user.balance }} USD</h3>
             </div>
         </div>
-        
-        <div class="accounts-section">
-            <div class="accounts-header">
-                <h2>My accounts</h2>
-            </div>
-            <div class="account-actions">
-                <button>Deposit</button>
-                <button>Withdraw</button>
-                <button>Transaction History</button>
-            </div>
+    </div>
+    
+    <div class="accounts-section">
+        <div class="accounts-header">
+            <h2>Accounts</h2>
+        </div>
+        <div class="account-actions">
+            <button onclick="location.href='/deposit'">Deposit</button>
+            <button onclick="location.href='/withdraw'">Withdraw</button>
+            <button onclick="location.href='/history'">Transaction History</button>
         </div>
     </div>
-</div>
 </section>
 {% endblock %}

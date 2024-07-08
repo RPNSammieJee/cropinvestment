@@ -7,6 +7,7 @@ import string
 from flask_migrate import Migrate
 from main import app
 from main.reg_blueprints import reg_blueprints
+import requests
 
 reg_blueprints(app)
 @app.route("/")
@@ -115,15 +116,37 @@ def Blog3_page():
     return render_template("blog4.html")
 
 
-
-
-
-
-"""
 @app.route('/signup', methods=['GET', 'POST'])
 def signup_page():
-    return render_template("signing.html")
-"""
+    if request.method == 'POST':
+        recaptcha_response = request.form['g-recaptcha-response']
+        secret = '6LepKQsqAAAAANXeGSPJcyBfxg5yfCb74ndotxJX'
+        data = {
+            'secret': secret,
+            'response': recaptcha_response
+        }
+        response = requests.post('https://www.google.com/recaptcha/api/siteverify', data=data)
+        result = response.json()
+
+        if result['success']:
+            # Process the form data here (e.g., save to database)
+            username = request.form['username']
+            first_name = request.form['first_name']
+            last_name = request.form['last_name']
+            email = request.form['email']
+            confirm_email = request.form['confirm-email']
+            home_address = request.form['home_address']
+            contact = request.form['contact']
+            password = request.form['password']
+            country = request.form['country']
+
+            # Additional processing logic here
+
+            return 'Signup successful!'
+        else:
+            return 'Failed to verify reCAPTCHA.', 400
+
+    return render_template("signup.html")
 
 """
 @app.route('/', methods=['GET', 'POST'])

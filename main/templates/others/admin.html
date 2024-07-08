@@ -1008,26 +1008,25 @@
 						<table>
 							<thead>
 								<tr>
-									<th>#</th>
-									<th>Project</th>
-									<th>Manager</th>
-									<th>Status</th>
-									<th>Due date</th>
+									<th>No</th>
+									<th>Username</th>
+									<th>Email</th>
+									<th>Contact</th>
+									<th>Balance</th>
+									<th>Country</th>
+                                    <th>Date creeated</th>
 								</tr>
 							</thead>
 							<tbody>
 								{% for user in users%}
 								<tr>
 									<td>1</td>
-									<td>React</td>
-									<td>Tran Anh Tuat</td>
-									<td>
-										<span class="dot">
-											<i class="bg-success"></i>
-											Completed
-										</span>
-									</td>
-									<td>17/07/2020</td>
+									<td>user.name</td>
+									<td>user.email</td>
+									<td>user.contact</td>
+									<td>user.balance</td>
+									<td>user.country</td>
+									<td>user.date_created</td>
 								</tr>
 								{% endfor %}
 							</tbody>
