@@ -101,12 +101,15 @@
             <h1>Deposit</h1>
         </div>
         <div class="payment-method">
-            <label for="payment-select">Payment method</label>
-            <select id="payment-select" onchange="updatePaymentMethod()">
-                <option value="bitcoin">Bitcoin (BTC)</option>
-                <option value="ethereum">Ethereum (ETH)</option>
-                <option value="credit-card">Credit Card</option>
-            </select>
+            <h2 id="selected-plan-title"></h2>
+            <form action="/deposit" method="post">
+                <label for="payment-select">Payment method</label>
+                <select name="method" id="payment-select" onchange="updatePaymentMethod()">
+                    <option value="bitcoin">Bitcoin (BTC)</option>
+                    <option value="ethereum">Ethereum (ETH)</option>
+                    <option value="card">Credit Card</option>
+                </select>
+            </form>
         </div>
         <div class="payment-details" id="payment-details">
             <!-- Details will be dynamically generated here -->
@@ -115,7 +118,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
     <script>
         function goBack() {
-            window.location.href = 'http://127.0.0.1:5500/templates/dashboard.html';
+            window.location.href = '/account';
         }
 
         function copyAddress() {
@@ -162,7 +165,7 @@
                     });
                 });
 
-            } else if (paymentMethod === 'credit-card') {
+            } else if (paymentMethod === 'card') {
                 const cardInput = document.createElement('input');
                 cardInput.type = 'text';
                 cardInput.placeholder = 'Enter your credit card number';
@@ -185,7 +188,18 @@
             }
         }
 
-        document.addEventListener('DOMContentLoaded', updatePaymentMethod);
+        document.addEventListener('DOMContentLoaded', function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const selectedPlan = urlParams.get('plan');
+            if (!selectedPlan) {
+                // If no plan is selected, redirect to account page
+                window.location.href = '/account';
+            } else {
+                // Display the selected plan
+                document.getElementById('selected-plan-title').innerText = selectedPlan;
+            }
+            updatePaymentMethod();
+        });
     </script>
 </body>
 </html>

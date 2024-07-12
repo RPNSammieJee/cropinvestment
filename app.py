@@ -1,18 +1,22 @@
-from flask import Flask, render_template, request, redirect, url_for, flash
+from flask import Flask, render_template, request, redirect, session, url_for, flash
 from flask_mail import Mail, Message
 from flask_login import LoginManager, UserMixin, login_user, login_required, current_user, logout_user
 import os
 import random
 import string
 from flask_migrate import Migrate
-from main import app
+from main import app, db
+from main.auth.models import User
 from main.reg_blueprints import reg_blueprints
 import requests
+from werkzeug.security import generate_password_hash, check_password_hash
+from werkzeug.utils import secure_filename
+
 
 reg_blueprints(app)
 @app.route("/")
 def index_page():
-    return render_template("index.html")
+    return render_template("others/index.html")
 
 # Configure mail server
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
@@ -20,6 +24,10 @@ app.config['MAIL_PORT'] = 465
 app.config['MAIL_USE_TLS'] = True
 app.config['MAIL_USERNAME'] = 'aigbornajohnrpnsamuel@gmail.com'  # Update with your email
 app.config['MAIL_PASSWORD'] = 'sam05mar'  # Update with your email password
+app.config['UPLOAD_FOLDER'] = 'static/uploads'
+UPLOAD_FOLDER = 'static/uploads'
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
+
 
 mail = Mail(app)
 
@@ -28,11 +36,32 @@ def generate_verification_code():
     return ''.join(random.choices(string.ascii_uppercase + string.digits, k=6))
 
 
+
+def inject_user():
+    return dict(user=current_user)
+
+
 @app.route('/dashboard')
-# @login_required
+@login_required
 def dashboard():
     user = current_user
     return render_template('pages/dashboard.html', user=user)
+
+@app.route('/upload', methods=['POST'])
+@login_required
+def upload_file():
+    if 'driver_license' in request.files:
+        driver_license = request.files['driver_license']
+        if driver_license.filename != '':
+            filename = secure_filename(driver_license.filename)
+            file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+            driver_license.save(file_path)
+            current_user.driver_license = filename
+            db.session.commit()
+            return redirect(url_for('dashboard', user=current_user))
+
+    return redirect(url_for('dashboard'))
+
 
 @app.route('/farmers', methods=['GET', 'POST'])
 def farmer_page():
@@ -68,20 +97,17 @@ def team_page():
 
 @app.route('/account', methods=['GET', 'POST'])
 def account():
-    return render_template("pages/account.html", user={})
+    return render_template("pages/account.html", user=current_user)
 
 @app.route('/admin')
+@login_required
 def admin_page():
-    user = [{},{},{}]
-    return render_template("others/admin.html", users=user)
+    user = current_user
+    return render_template("others/admin.html", users=[user])
 
 # @app.route('/Dashboard', methods=['GET', 'POST'])
 # def dashboard_page():
 #     return render_template("dashboard.html")
-
-@app.route('/deposit', methods=['GET', 'POST'])
-def deposit():
-    return render_template("others/deposit.html")
 
 @app.route('/withdrawal', methods=['GET', 'POST'])
 def withdrawal():
@@ -97,11 +123,32 @@ def performance():
 
 @app.route('/setting', methods=['GET', 'POST'])
 def setting():
-    return render_template("setting.html")
+    return render_template("pages/setting.html")
 
-@app.route('/signout', methods=['GET', 'POST'])
-def signout():
-    return render_template("others/signout.html")
+"""
+@app.route('/setting', methods=['GET', 'POST'])
+def setting():
+    user_id = session.get('user_id')
+    user = User.query.get(user_id)
+    
+    if request.method == 'POST':
+        if 'password' in request.form:
+            new_password = request.form['password']
+            user.password = generate_password_hash(new_password, method='sha256')
+            db.session.commit()
+            flash('Password updated successfully!')
+        
+        if 'contact' in request.form:
+            new_phone = request.form['contact']
+            user.contact = new_phone
+            db.session.commit()
+            flash('Phone number updated successfully!')
+
+        return redirect(url_for('security'))
+    
+    masked_phone = f"{user.contact[:3]}*****{user.contact[-2:]}"
+    return render_template("pages/setting.html", email=user.email, phone=masked_phone, password='******')
+"""
 
 @app.route('/blog1', methods=['GET', 'POST'])
 def Blog1_page():
@@ -116,6 +163,7 @@ def Blog3_page():
     return render_template("blog4.html")
 
 
+"""
 @app.route('/signup', methods=['GET', 'POST'])
 def signup_page():
     if request.method == 'POST':
@@ -147,6 +195,9 @@ def signup_page():
             return 'Failed to verify reCAPTCHA.', 400
 
     return render_template("signup.html")
+
+"""
+
 
 """
 @app.route('/', methods=['GET', 'POST'])

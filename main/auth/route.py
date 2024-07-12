@@ -3,6 +3,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import login_user, current_user, logout_user, login_required
 from .models import User  # Adjust the import based on your project structure
 from main import db, login_manager  # Adjust the import based on your project structure
+import requests
 
 auth_bp = Blueprint('auth_bp', __name__)
 
@@ -14,12 +15,23 @@ def load_user(user_id):
 def create_user():
     if request.method == 'POST':
         data = request.form
-        hashed_password = generate_password_hash(data['password'], method='pbkdf2:sha256')
+        recaptcha_response = request.form['g-recaptcha-response']
+        secret = '6LepKQsqAAAAANXeGSPJcyBfxg5yfCb74ndotxJX'
+        recaptcha_data = {
+            'secret': secret,
+            'response': recaptcha_response
+        }
+        response = requests.post('https://www.google.com/recaptcha/api/siteverify', data=recaptcha_data)
+        result = response.json()
+
+        if not result.get('success'):
+            flash('reCAPTCHA verification failed. Please try again.', 'danger')
+            return redirect(url_for('auth_bp.create_user'))
 
         new_user = User(
             username=data['username'],
             email=data['email'],
-            password=hashed_password,
+            password=generate_password_hash(data['password'], method='pbkdf2:sha256'),
             country=data['country'],
             first_name=data['first_name'],
             last_name=data['last_name'],
@@ -32,7 +44,9 @@ def create_user():
         db.session.commit()
         flash('Account created successfully! Please login.', 'success')
         return redirect(url_for('auth_bp.login_page'))
+
     return render_template('others/signup.html')
+
 
 @auth_bp.route('/signin', methods=['GET', 'POST'])
 def login_page():
@@ -50,9 +64,9 @@ def login_page():
             flash('Login Unsuccessful. Please check email and password', 'danger')
     return render_template('others/signin.html')
  
-# @auth_bp.route('/logout')
-# @login_required
-# def logout():
-#     logout_user()
-#     flash('You have been logged out!', 'info')
-#     return redirect(url_for('auth_bp.login_page'))
+@auth_bp.route('/signout')
+@login_required
+def logout():
+    logout_user()
+    flash('You have been logged out!', 'info')
+    return redirect(url_for('auth_bp.login_page'))

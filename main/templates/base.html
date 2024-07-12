@@ -47,6 +47,7 @@
             width: 40px;
             height: 40px;
             transition: width 0.3s, height 0.3s;
+            cursor: pointer;
         }
 
         .sidebar.expanded .profile-info img {
@@ -140,6 +141,7 @@
             height: 40px;
             border-radius: 50%;
             margin-right: 10px;
+            cursor: pointer;
         }
 
         .user-email {
@@ -175,7 +177,7 @@
             cursor: pointer;
         }
 
-        .plan-container {
+       .plan-container {
     display: flex;
     justify-content: space-around;
     padding: 20px;
@@ -190,7 +192,7 @@
             border-radius: 10px;
             text-align: center;
             color: #0a0a0a;
-        }
+        } 
 
         .dot-menu {
             position: relative;
@@ -389,17 +391,18 @@
             <span class="menu-icon" onclick="toggleSidebar()">☰</span>
         </div>
         <div class="profile-info">
-            <img src="profile-picture.jpg" alt="Profile Picture">
-            <p>Username</p>
+          <img src="{{ url_for('static', filename='uploads/' ~ user.profile_picture if user.profile_picture else 'images/adminIcon.png') }}" alt="Profile Picture" class="user-icon" id="profilePicture">
+          <input type="file" id="fileInput" style="display: none;" accept="image/*" onchange="previewFile()">
+            <p>{{user.username}}</p>
         </div>
         <nav>
             <ul>
                 <li><a href="{{ url_for('dashboard') }}"><i class="fas fa-user"></i>My Account</a></li>
-                <li><a href="{{ url_for('deposit') }}"><i class="fas fa-wallet"></i>Deposit</a></li>
+                <li><a href="{{ url_for('payment.deposit') }}"><i class="fas fa-wallet"></i>Deposit</a></li>
                 <li><a href="{{ url_for('withdrawal') }}"><i class="fas fa-money-check-alt"></i>Withdrawal</a></li>
                 <li><a href="{{ url_for('transaction') }}"><i class="fas fa-history"></i>Transaction History</a></li>
                 <li><a href="{{ url_for('account') }}"><i class="fas fa-chart-line"></i>Account Type</a></li>
-                <li><a href="{{ url_for('setting') }}"><i class="fas fa-cogs"></i>Settings</a></li>
+                <li><a href="{{ url_for('setting.setting') }}"><i class="fas fa-cogs"></i>Settings</a></li>
                 <li><a href="/signout"><i class="fas fa-sign-out-alt"></i>Sign Out</a></li>
             </ul>
         </nav>
@@ -408,8 +411,8 @@
         <header>
             <h1>CropInvestment</h1>
             <div class="user-notification">
-                <span class="balance">$0.00</span>
-                <img src="{{ url_for('static', filename='images/adminIcon.png') }}" alt="Profile Picture" class="user-icon">
+                <span class="balance">${{ user.balance }}</span>
+                <img src="{{ url_for('static', filename='images/adminIcon.png') }}" alt="Profile Picture" class="user-icon" id="headerProfilePicture">
                 <p class="user-email">{{ user.email }}</p>
                 <div class="notification-bell">
                     <i class="fas fa-bell" style="color: black;"></i>
@@ -430,6 +433,22 @@
     <script>
         function toggleSidebar() {
             document.querySelector('.sidebar').classList.toggle('expanded');
+        }
+
+        document.getElementById('profilePicture').addEventListener('click', function() {
+            document.getElementById('fileInput').click();
+        });
+
+        function previewFile() {
+            const file = document.getElementById('fileInput').files[0];
+            const reader = new FileReader();
+            reader.onloadend = function() {
+                document.getElementById('profilePicture').src = reader.result;
+                document.getElementById('headerProfilePicture').src = reader.result;
+            }
+            if (file) {
+                reader.readAsDataURL(file);
+            }
         }
     </script>
     {% block script %}

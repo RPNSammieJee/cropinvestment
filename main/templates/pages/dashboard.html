@@ -52,15 +52,44 @@ Dashboard - CropInvestment
     .account-actions button:hover {
         background-color: #ffcc00;  /* Darker yellow on hover */
     }
+
+    .upload-container {
+        margin-top: 20px;
+    }
+
+    .upload-container h3 {
+        font-size: 1.2em;
+        color: #555;
+        margin-bottom: 10px;
+    }
+
+    .upload-container input[type="file"] {
+        display: block;
+        margin: 10px auto;
+    }
+
+    .upload-container button {
+        background-color: #31d35c;
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        font-size: 1em;
+        cursor: pointer;
+        border-radius: 5px;
+        transition: background-color 0.3s;
+    }
+
+    .upload-container button:hover {
+        background-color: #28a745;
+    }
 </style>
 
 <section>
     <div class="profile-container">
         <div>
             <h2>My accounts</h2>
-            <h1>Account #{{ user.id }}</h1>
+            <h1>User_id #{{ user.id }}</h1>
             <h2>{{ user.first_name }} {{ user.last_name }}</h2>
-            <p>{{ user.email }}</p>
             <div class="account-details">
                 <h3>Balance: {{ user.balance }} USD</h3>
             </div>
@@ -73,9 +102,51 @@ Dashboard - CropInvestment
         </div>
         <div class="account-actions">
             <button onclick="location.href='/deposit'">Deposit</button>
-            <button onclick="location.href='/withdraw'">Withdraw</button>
-            <button onclick="location.href='/history'">Transaction History</button>
+            <button onclick="location.href='/withdrawal'">Withdraw</button>
+            <button onclick="location.href='/transaction'">Transaction History</button>
         </div>
     </div>
+
+    <div class="upload-container">
+        <h3>Upload Documents</h3>
+        {% if  user.driver_license %}
+            <p>Your documents are already uploaded:</p>
+            <img src="{{ url_for('static', filename='uploads/' ~ user.driver_license) }}" alt="Driver's License">
+        {% else %}
+            <form action="/upload" method="post" enctype="multipart/form-data">
+                {% if not user.driver_license %}
+                    <label for="driver_license">Upload Driver's License:</label>
+                    <input type="file" name="driver_license" id="driver_license" accept="image/*">
+                    <button type="submit">Upload</button>
+                {% endif %}
+            </form>
+        {% endif %}
+    </div>
+    
 </section>
+
+<script>
+    document.getElementById('uploadForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+        
+        var formData = new FormData(this);
+
+        fetch('/upload', {
+            method: 'POST',
+            body: formData
+        }).then(response => response.json())
+          .then(data => {
+              if (data.success) {
+                  const imgElement = document.createElement('img');
+                  imgElement.src = `/static/uploads/${data.filename}`;
+                  imgElement.alt = 'Driver\'s License';
+                  document.querySelector('.upload-container').innerHTML = '<p>Your documents are already uploaded:</p>';
+                  document.querySelector('.upload-container').appendChild(imgElement);
+              } else {
+                  alert('Upload failed. Please try again.');
+              }
+          })
+          .catch(error => console.error('Error:', error));
+    });
+</script>
 {% endblock %}

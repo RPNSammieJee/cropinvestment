@@ -49,9 +49,14 @@ Dashboard - CropInvestment
 <div class="selected-plan" id="selected-plan"></div>
 
 <script>
+     
     function selectPlan(plan) {
         const selectedPlanDiv = document.getElementById('selected-plan');
         selectedPlanDiv.innerHTML = `<p>You have selected: ${plan}</p>`;
+        // Redirect to deposit page with the selected plan as a query parameter
+     window.location.href = `/deposit?plan=${encodeURIComponent(plan)}`;
     }
 </script>
+
+
 {% endblock %}

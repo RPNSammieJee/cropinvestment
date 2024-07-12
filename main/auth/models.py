@@ -16,6 +16,7 @@ class User(db.Model, UserMixin):
     job_title = db.Column(db.String(100))
     date_created = db.Column(db.DateTime, default=datetime.utcnow)
     balance = db.Column(db.Float, nullable=False, default=0.0)
+    account_type = db.Column(db.String(200), )
 
     def __repr__(self):
         return f'<User {self.username}>'
