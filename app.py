@@ -166,14 +166,14 @@ def admin_page():
 def edit_balance_page(user_id):
     if current_user.email != 'godwin13798@gmail.com' or not check_password_hash(current_user.password, '12345678'):
         flash('Access denied', 'error')
-        return render_template("others/admin.html")
+        return redirect(url_for("dashboard"))
 
     user = User.query.get(user_id)
     if user:
         return render_template('others/edit.html', user=user)
     else:
         flash('User not found', 'error')
-        return render_template("others/admin.html")
+        return redirect(url_for("admin_page"))
 
 
 
@@ -181,15 +181,16 @@ def edit_balance_page(user_id):
 def edit_balance():
     user_id = request.form['user_id']
     new_balance = request.form['new_balance']
+    users = User.query.all()
     if current_user.email != 'godwin13798@gmail.com' or not check_password_hash(current_user.password, '12345678'):
         flash('Access denied', 'error')
-        return render_template("others/admin.html")
+        return redirect(url_for("dashboard"))
 
     try:
         new_balance = float(new_balance)
     except ValueError:
         flash('Invalid balance value', 'error')
-        return render_template("others/admin.html")
+        return redirect(url_for("admin_page"))
 
     user = User.query.get(user_id)
     if user:
@@ -199,7 +200,7 @@ def edit_balance():
     else:
         flash('User not found', 'error')
 
-    return render_template('others/admin.html', user={})
+    return redirect(url_for('admin_page'))
 
 
     

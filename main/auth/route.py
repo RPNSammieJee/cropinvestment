@@ -51,7 +51,7 @@ def create_user():
 @auth_bp.route('/signin', methods=['GET', 'POST'])
 def login_page():
     if current_user.is_authenticated:
-        return redirect(url_for('main_bp.dashboard'))
+        return redirect(url_for('dashboard'))
     if request.method == 'POST':
         data = request.form
         print(data)
