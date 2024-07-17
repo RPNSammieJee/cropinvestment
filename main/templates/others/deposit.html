@@ -88,7 +88,7 @@
             margin-top: 20px;
         }
 
-        .qr-code canvas {
+        .qr-code img {
             width: 100%;
             max-width: 200px;
         }
@@ -122,7 +122,7 @@
         }
 
         function copyAddress() {
-            const address = document.getElementById('wallet-address').value;
+            const address = document.getElementById('wallet-address').textContent;
             navigator.clipboard.writeText(address).then(() => {
                 alert('Address copied to clipboard');
             }).catch(err => {
@@ -137,11 +137,20 @@
             
             paymentDetails.innerHTML = '';
             
+            let address, qrCodePath;
+
+            if (paymentMethod === 'bitcoin') {
+                address = 'bc1qngx6rad6chja3ysuzulx4axdumy5y6mn0qtf76';
+                qrCodePath = "static/images/Wallet.jpg";
+            } else if (paymentMethod === 'ethereum') {
+                address = '0xF4c4e2d40FaA629A76A80CBAF9ddF71Ff9D05E58';
+                qrCodePath = "static/images/EWallet.jpg"; // Ensure you have this image
+            }
+
             if (paymentMethod === 'bitcoin' || paymentMethod === 'ethereum') {
-                const walletInput = document.createElement('input');
-                walletInput.type = 'text';
-                walletInput.id = 'wallet-address';
-                walletInput.placeholder = `Enter your ${paymentMethod} address`;
+                const addressPara = document.createElement('p');
+                addressPara.textContent = `${paymentMethod.charAt(0).toUpperCase() + paymentMethod.slice(1)} Address: ${address}`;
+                addressPara.id = 'wallet-address';
 
                 const copyButton = document.createElement('button');
                 copyButton.textContent = 'Copy address';
@@ -150,41 +159,14 @@
                 const qrCodeDiv = document.createElement('div');
                 qrCodeDiv.className = 'qr-code';
 
-                const qrCodeCanvas = document.createElement('canvas');
-                qrCodeCanvas.id = 'qr-code-canvas';
+                const qrCodeImg = document.createElement('img');
+                qrCodeImg.src = qrCodePath; // Use the path to your QR code image
+                qrCodeImg.alt = `${paymentMethod.charAt(0).toUpperCase() + paymentMethod.slice(1)} QR Code`;
 
-                qrCodeDiv.appendChild(qrCodeCanvas);
-                paymentDetails.appendChild(walletInput);
+                qrCodeDiv.appendChild(qrCodeImg);
+                paymentDetails.appendChild(addressPara);
                 paymentDetails.appendChild(copyButton);
                 paymentDetails.appendChild(qrCodeDiv);
-
-                walletInput.addEventListener('input', function() {
-                    const qr = new QRious({
-                        element: qrCodeCanvas,
-                        value: walletInput.value
-                    });
-                });
-
-            } else if (paymentMethod === 'card') {
-                const cardInput = document.createElement('input');
-                cardInput.type = 'text';
-                cardInput.placeholder = 'Enter your credit card number';
-
-                const expiryInput = document.createElement('input');
-                expiryInput.type = 'text';
-                expiryInput.placeholder = 'Expiry date (MM/YY)';
-
-                const cvvInput = document.createElement('input');
-                cvvInput.type = 'text';
-                cvvInput.placeholder = 'CVV';
-
-                const payButton = document.createElement('button');
-                payButton.textContent = 'Pay Now';
-
-                paymentDetails.appendChild(cardInput);
-                paymentDetails.appendChild(expiryInput);
-                paymentDetails.appendChild(cvvInput);
-                paymentDetails.appendChild(payButton);
             }
         }
 

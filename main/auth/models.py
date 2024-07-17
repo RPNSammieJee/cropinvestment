@@ -17,6 +17,7 @@ class User(db.Model, UserMixin):
     date_created = db.Column(db.DateTime, default=datetime.utcnow)
     balance = db.Column(db.Float, nullable=False, default=0.0)
     account_type = db.Column(db.String(200), )
+    driver_license = db.Column(db.String(200), nullable=True)
 
     def __repr__(self):
         return f'<User {self.username}>'

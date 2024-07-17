@@ -14,7 +14,7 @@ Security Settings - CropInvestment
             flex-grow: 1;
             padding: 20px;
             margin-top: 5%;
-            color: #31d35c;
+            color: #080802;
         }
 
         h1 {
@@ -35,7 +35,7 @@ Security Settings - CropInvestment
         form button {
             margin-top: 10px;
             padding: 10px 20px;
-            background-color: #31d35c;
+            background-color: #c3d331;
             color: white;
             border: none;
             cursor: pointer;
@@ -61,7 +61,11 @@ Security Settings - CropInvestment
                     <input type="email" id="email" value="{{ current_user.email }}" disabled>
                 </div>
                 <div class="form-group">
-                    <label for="password">Password:</label>
+                    <label for="old_password">Old Password:</label>
+                    <input type="password" id="old_password" name="old_password" placeholder="Old Password" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">New Password:</label>
                     <input type="password" id="password" name="password" placeholder="New Password">
                 </div>
                 <div class="form-group">
@@ -72,22 +76,22 @@ Security Settings - CropInvestment
             </form>
         </div>
     </div>
-
+    
     <script>
         document.getElementById('settings-form').addEventListener('submit', function (event) {
             const password = document.getElementById('password').value;
             const phone = document.getElementById('phone').value;
             let errors = [];
-
+    
             if (password && password.length < 6) {
                 errors.push("Password must be at least 6 characters long.");
             }
-
+    
             const phonePattern = /^[0-9]{10,15}$/;
             if (phone && !phonePattern.test(phone)) {
                 errors.push("Phone number must be between 10 and 15 digits.");
             }
-
+    
             if (errors.length > 0) {
                 event.preventDefault();
                 alert(errors.join("\n"));

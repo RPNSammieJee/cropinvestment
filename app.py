@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, session, url_for, flash
+from flask import Flask, render_template, request, jsonify, redirect, session, url_for, flash
 from flask_mail import Mail, Message
 from flask_login import LoginManager, UserMixin, login_user, login_required, current_user, logout_user
 import os
@@ -13,6 +13,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import secure_filename
 
 
+
 reg_blueprints(app)
 @app.route("/")
 def index_page():
@@ -24,9 +25,9 @@ app.config['MAIL_PORT'] = 465
 app.config['MAIL_USE_TLS'] = True
 app.config['MAIL_USERNAME'] = 'aigbornajohnrpnsamuel@gmail.com'  # Update with your email
 app.config['MAIL_PASSWORD'] = 'sam05mar'  # Update with your email password
-app.config['UPLOAD_FOLDER'] = 'static/uploads'
-UPLOAD_FOLDER = 'static/uploads'
-ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
+app.config['UPLOAD_FOLDER'] = 'main/static/uploads'
+
+
 
 
 mail = Mail(app)
@@ -47,63 +48,163 @@ def dashboard():
     user = current_user
     return render_template('pages/dashboard.html', user=user)
 
-@app.route('/upload', methods=['POST'])
-@login_required
+
+# Route to handle the form submission
+@app.route('/upload', methods=['GET', 'POST'])
 def upload_file():
-    if 'driver_license' in request.files:
-        driver_license = request.files['driver_license']
-        if driver_license.filename != '':
-            filename = secure_filename(driver_license.filename)
-            file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-            driver_license.save(file_path)
+    if request.method == "POST":
+        print("this route was called")
+        if 'driver_license' not in request.files:
+            flash('No file part')
+            return redirect(request.url)
+        
+        file = request.files['driver_license']
+        
+        if file.filename == '':
+            flash('No selected file')
+            return redirect(request.url)
+        
+        if file:
+            filename = secure_filename(file.filename)
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
             current_user.driver_license = filename
             db.session.commit()
-            return redirect(url_for('dashboard', user=current_user))
+            
+            flash('File successfully uploaded')
+            return redirect(url_for('dashboard'))
+        else:
+            flash('Allowed file types are png, jpg, jpeg, gif')
+            return redirect(request.url)
+    return render_template('pages/dashboard.html', user={})
 
-    return redirect(url_for('dashboard'))
 
+@app.route('/upload_profile_picture', methods=['GET', 'POST'])
+def upload_profile_picture():
+    if request.method == "POST":
+        print("this route was called")
+        if 'file' not in request.files:
+            flash('No file part')
+            return redirect(request.url)
+        file = request.files['file']
+
+        if file.filename == '':
+            flash('No selected file')
+            return 'static/images/adminIcon.png'
+        
+        if file:
+            filename = secure_filename(file.filename)
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            current_user.profile_picture = filename
+            db.session.commit()
+
+            flash('Profile picture updated successfully')
+            return redirect(url_for('dashboard'))
+        
+    return render_template('pages/dashboard.html', user={})
 
 @app.route('/farmers', methods=['GET', 'POST'])
 def farmer_page():
-    return render_template("pages/farmers.html")
+    return render_template("others/farmers.html")
 
 @app.route('/blog', methods=['GET', 'POST'])
 def blog_page():
-    return render_template("pages/blog.html")
+    return render_template("others/blog.html")
 
 @app.route('/contact', methods=['GET', 'POST'])
 def contact_page():
-    return render_template("contact.html")
+    return render_template("others/contact.html")
 
 @app.route('/FAQ', methods=['GET', 'POST'])
 def FAQ_page():
-    return render_template("FAQ.html")
+    return render_template("others/FAQ.html")
 
 @app.route('/grow', methods=['GET', 'POST'])
 def grow_page():
-    return render_template("grow.html")
+    return render_template("others/grow.html")
 
 @app.route('/porfiolio', methods=['GET', 'POST'])
 def porfiolio_page():
-    return render_template("porfioloo.html")
+    return render_template("others/porfioloo.html")
 
 @app.route('/Privacy', methods=['GET', 'POST'])
 def privacy_page():
-    return render_template("privacy1.html")
+    return render_template("others/privacy1.html")
 
 @app.route('/team', methods=['GET', 'POST'])
 def team_page():
-    return render_template("team.html")
+    return render_template("others/team.html")
+
+@app.route('/deposit', methods=['GET', 'POST'])
+def deposit():
+    return render_template('others/deposit.html')
 
 @app.route('/account', methods=['GET', 'POST'])
 def account():
     return render_template("pages/account.html", user=current_user)
 
-@app.route('/admin')
+@app.route('/admin', methods=['GET', 'POST'])
 @login_required
 def admin_page():
-    user = current_user
-    return render_template("others/admin.html", users=[user])
+    if current_user.email == 'godwin13798@gmail.com' and check_password_hash(current_user.password, '12345678'):
+        query = request.args.get('query', '')
+        users = User.query.all()
+        # Query users based on search or fetch all users
+        if query:
+            results = User.query.filter(
+                (User.username.ilike(f'%{query}%')) |
+                (User.first_name.ilike(f'%{query}%')) |
+                (User.last_name.ilike(f'%{query}%')) |
+                (User.id == query)
+            ).all()
+            users = results
+        return render_template("others/admin.html", users=users)
+    else:
+        flash('You do not have permission to access this page.', 'error')
+        return redirect(url_for('dashboard'))
+    
+@app.route('/edit_balance/<int:user_id>', methods=['GET'])
+def edit_balance_page(user_id):
+    if current_user.email != 'godwin13798@gmail.com' or not check_password_hash(current_user.password, '12345678'):
+        flash('Access denied', 'error')
+        return render_template("others/admin.html")
+
+    user = User.query.get(user_id)
+    if user:
+        return render_template('others/edit.html', user=user)
+    else:
+        flash('User not found', 'error')
+        return render_template("others/admin.html")
+
+
+
+@app.route('/edit_balance', methods=['POST'])
+def edit_balance():
+    user_id = request.form['user_id']
+    new_balance = request.form['new_balance']
+    if current_user.email != 'godwin13798@gmail.com' or not check_password_hash(current_user.password, '12345678'):
+        flash('Access denied', 'error')
+        return render_template("others/admin.html")
+
+    try:
+        new_balance = float(new_balance)
+    except ValueError:
+        flash('Invalid balance value', 'error')
+        return render_template("others/admin.html")
+
+    user = User.query.get(user_id)
+    if user:
+        user.balance = new_balance
+        db.session.commit()
+        flash('Balance updated successfully', 'success')
+    else:
+        flash('User not found', 'error')
+
+    return render_template('others/admin.html', user={})
+
+
+    
+    
+
 
 # @app.route('/Dashboard', methods=['GET', 'POST'])
 # def dashboard_page():
@@ -115,7 +216,7 @@ def withdrawal():
 
 @app.route('/transaction', methods=['GET', 'POST'])
 def transaction():
-    return render_template("pages/transaction.html")
+    return render_template("pages/transaction.html", user=current_user)
 
 @app.route('/performance', methods=['GET', 'POST'])
 def performance():
@@ -152,15 +253,15 @@ def setting():
 
 @app.route('/blog1', methods=['GET', 'POST'])
 def Blog1_page():
-    return render_template("blog2.html")
+    return render_template("others/blog2.html")
 
 @app.route('/blog2', methods=['GET', 'POST'])
 def Blog2_page():
-    return render_template("blog3.html")
+    return render_template("others/blog3.html")
 
 @app.route('/blog3', methods=['GET', 'POST'])
 def Blog3_page():
-    return render_template("blog4.html")
+    return render_template("others/blog4.html")
 
 
 """

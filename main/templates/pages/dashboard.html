@@ -109,44 +109,21 @@ Dashboard - CropInvestment
 
     <div class="upload-container">
         <h3>Upload Documents</h3>
-        {% if  user.driver_license %}
-            <p>Your documents are already uploaded:</p>
-            <img src="{{ url_for('static', filename='uploads/' ~ user.driver_license) }}" alt="Driver's License">
+        {% if user.driver_license %}
+            <p>Your driver's license document has been uploaded.</p>
         {% else %}
             <form action="/upload" method="post" enctype="multipart/form-data">
-                {% if not user.driver_license %}
-                    <label for="driver_license">Upload Driver's License:</label>
-                    <input type="file" name="driver_license" id="driver_license" accept="image/*">
-                    <button type="submit">Upload</button>
-                {% endif %}
+                <label for="driver_license">Upload Driver's License:</label>
+                <input type="file" name="driver_license" id="driver_license" accept="image/*">
+                <button type="submit">Upload</button>
             </form>
         {% endif %}
     </div>
     
+    
+    
 </section>
 
-<script>
-    document.getElementById('uploadForm').addEventListener('submit', function(event) {
-        event.preventDefault();
-        
-        var formData = new FormData(this);
 
-        fetch('/upload', {
-            method: 'POST',
-            body: formData
-        }).then(response => response.json())
-          .then(data => {
-              if (data.success) {
-                  const imgElement = document.createElement('img');
-                  imgElement.src = `/static/uploads/${data.filename}`;
-                  imgElement.alt = 'Driver\'s License';
-                  document.querySelector('.upload-container').innerHTML = '<p>Your documents are already uploaded:</p>';
-                  document.querySelector('.upload-container').appendChild(imgElement);
-              } else {
-                  alert('Upload failed. Please try again.');
-              }
-          })
-          .catch(error => console.error('Error:', error));
-    });
-</script>
+
 {% endblock %}

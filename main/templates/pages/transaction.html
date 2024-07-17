@@ -1,65 +1,72 @@
+{% extends "base.html" %}
 
-<div class="transaction-history">
-    <h2>Transaction History</h2>
-    <div class="filters">
-        <select id="dateFilter">
-            <option value="30">Last 30 days</option>
-            <option value="3">Last 3 days</option>
-            <option value="7">Last 7 days</option>
-            <option value="7">Last 1 month</option>
-            <option value="custom">Custom Date</option>
-            <input type="date" id="startDate" style="display: none;">
-            <input type="date" id="endDate" style="display: none;">
-        </select>
+{% block title %}
+Security Settings - CropInvestment
+{% endblock %}
 
-        <select id="typeFilter">
-            <option value="all">All Transaction Types</option>
-            <option value="deposit">Deposit</option>
-            <option value="withdrawal">Withdrawal</option>
-        </select>
-        <select id="statusFilter">
-            <option value="all">All Statuses</option>
-            <option value="completed">Completed</option>
-            <option value="pending">Pending</option>
-        </select>
-        <select id="accountFilter">
-            <option value="all">All Accounts</option>
-            <option value="account1">All Accounts</option>
-        </select>
+{% block content %}
+
+
+    <div class="transaction-history">
+        <h2>Transaction History</h2>
+        <div class="filters">
+            <select id="dateFilter">
+                <option value="30">Last 30 days</option>
+                <option value="3">Last 3 days</option>
+                <option value="7">Last 7 days</option>
+                <option value="7">Last 1 month</option>
+                <option value="custom">Custom Date</option>
+                <input type="date" id="startDate" style="display: none;">
+                <input type="date" id="endDate" style="display: none;">
+            </select>
+
+            <select id="typeFilter">
+                <option value="all">All Transaction Types</option>
+                <option value="deposit">Deposit</option>
+                <option value="withdrawal">Withdrawal</option>
+            </select>
+            <select id="statusFilter">
+                <option value="all">All Statuses</option>
+                <option value="completed">Completed</option>
+                <option value="pending">Pending</option>
+            </select>
+            <select id="accountFilter">
+                <option value="all">Type of account</option>
+                <option value="account1">Etheruem staking</option>
+                <option value="account1">Agricultural plan</option>
+            </select>
+        </div>
+        <div class="no-transactions">
+            No transaction matches your filters
+            <br>
+            <span>Try changing your search terms</span>
+        </div>
+        <div class="reset-filters">
+            <button onclick="resetFilters()">Reset Filters</button>
+        </div>
     </div>
-    <div class="no-transactions">
-        No transaction matches your filters
-        <br>
-        <span>Try changing your search terms</span>
-    </div>
-    <div class="reset-filters">
-        <button onclick="resetFilters()">Reset Filters</button>
-    </div>
-</div>
     
-{% block script %}
-<script>
-    document.getElementById('dateFilter').addEventListener('change', function() {
-        if (this.value === 'custom') {
-            document.getElementById('startDate').style.display = 'inline';
-            document.getElementById('endDate').style.display = 'inline';
-        } else {
+    <script>
+        document.getElementById('dateFilter').addEventListener('change', function() {
+            if (this.value === 'custom') {
+                document.getElementById('startDate').style.display = 'inline';
+                document.getElementById('endDate').style.display = 'inline';
+            } else {
+                document.getElementById('startDate').style.display = 'none';
+                document.getElementById('endDate').style.display = 'none';
+            }
+        });
+
+        function resetFilters() {
+            document.getElementById('dateFilter').value = '30';
             document.getElementById('startDate').style.display = 'none';
             document.getElementById('endDate').style.display = 'none';
         }
-    });
-
-    function resetFilters() {
-        document.getElementById('dateFilter').value = '30';
-        document.getElementById('startDate').style.display = 'none';
-        document.getElementById('endDate').style.display = 'none';
-    }
 
 
-    function toggleSidebar() {
-        document.querySelector('.sidebar').classList.toggle('expanded');
-    }
-</script>
+        function toggleSidebar() {
+            document.querySelector('.sidebar').classList.toggle('expanded');
+        }
+    </script>
 {% endblock %}
-</body>
-</html>
+

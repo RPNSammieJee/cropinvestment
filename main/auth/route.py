@@ -1,8 +1,8 @@
 from flask import Blueprint, render_template, redirect, url_for, flash, request
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import login_user, current_user, logout_user, login_required
-from .models import User  # Adjust the import based on your project structure
-from main import db, login_manager  # Adjust the import based on your project structure
+from .models import User 
+from main import db, login_manager  
 import requests
 
 auth_bp = Blueprint('auth_bp', __name__)
@@ -63,6 +63,8 @@ def login_page():
         else:
             flash('Login Unsuccessful. Please check email and password', 'danger')
     return render_template('others/signin.html')
+
+
  
 @auth_bp.route('/signout')
 @login_required
